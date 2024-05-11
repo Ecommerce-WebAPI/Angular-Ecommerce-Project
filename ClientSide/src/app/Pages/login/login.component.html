@@ -1,0 +1,91 @@
+<div class="container px-lg-0 px-md-4 px-sm-3">
+    <div class="row mt-5 align-items-center">
+        <div class="col-md-5 ps-lg-5 mb-5 mb-md-0">
+            <img src="https://bootstrapious.com/i/snippets/sn-registeration/illustration.svg" alt=""
+                class="img-fluid mb-3 d-none d-md-block">
+            <h1 class="text-center">Welcome back</h1>
+        </div>
+        <div class="col-md-6 col-lg-5 m-auto bg-white rounded-5 p-5 shadow">
+            <form class="row g-3 needs-validation" novalidate [formGroup]="loginForm"
+                (ngSubmit)="login()">
+                <div class="col-sm-12 my-3">
+                    <div class="input-group has-validation">
+                        <span class="input-group-text bg-white shadow-sm border-md py-2"
+                            id="inputGroupPrepend"><i class="bi-envelope"></i></span>
+                        <input type="text" formControlName="email"
+                            class="form-control shadow-sm border-md py-2" id="validationCustomEmail"
+                            aria-describedby="inputGroupPrepend" placeholder="email" required>
+                        <div class="invalid-feedback">
+                            Field is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="input-group has-validation">
+                        <span class="input-group-text bg-white shadow-sm border-md py-2"
+                            id="inputGroupPrepend"><i class="bi-lock"></i></span>
+                        <input [type]="isPasswordVisible ? 'text' : 'password'"
+                            formControlName="password" class="form-control shadow-sm border-md py-2"
+                            id="validationCustomPassword" aria-describedby="inputGroupPrepend"
+                            placeholder="password" required>
+                        <span
+                            class="input-group-text bg-white shadow-sm border-md border-start-0 py-2"
+                            id="inputGroupPrepend" (click)="togglePasswordVisibility()">
+                            <i [ngClass]="{
+                                'bi-eye': isPasswordVisible,
+                                'bi-eye-slash': !isPasswordVisible,
+                            }"></i>
+                        </span>
+                        <div class="invalid-feedback">
+                            Field is required.
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-12">
+                    <div class="form-check">
+                        <input class="form-check-input shadow-sm border-2" type="checkbox" value=""
+                            id="invalidCheck" required>
+                        <label class="form-check-label" for="invalidCheck">
+                            Remamber me.
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <input class="btn btn-primary py-2 mt-3 w-100 " value="Login" type="submit" />
+                </div>
+                <div class="col-sm-12 mt-4">
+                    <p class="text-muted"><a href="#" class="text-muted">Forget password?</a>
+
+                    <p class="text-muted font-weight-bold">Don't have account?
+                        <a class="text-muted" [routerLink]="['/register']"
+                            [routerLinkActive]="'text-danger'"
+                            [routerLinkActiveOptions]="{ exact: true }">Register</a>
+                    </p>
+                </div>
+
+                <!-- Divider Text -->
+                <div class="form-group col-lg-12 mx-auto d-flex align-items-center my-3">
+                    <div class="border-bottom w-100 "></div>
+                    <span class="px-2 small text-muted font-weight-bold text-muted">OR</span>
+                    <div class="border-bottom w-100"></div>
+                </div>
+
+                <!-- Social Login -->
+                <div class="form-group col-lg-12 text-sm-center mt-0">
+                    <a href="#" class="btn btn-outline-dark rounded-circle ms-2 py-2">
+                        <i class="bi-facebook"></i>
+                        <!-- <span class="font-weight-bold">Continue with Facebook</span> -->
+                    </a>
+                    <a href="#" class="btn btn-outline-dark rounded-circle ms-2 py-2">
+                        <i class="bi-google"></i>
+                        <!-- <span class="font-weight-bold">Continue with Twitter</span> -->
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

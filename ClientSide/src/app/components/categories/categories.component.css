@@ -1,0 +1,30 @@
+
+
+.category-section {
+    background-color: #f5f5f5; /* Light background color */
+  }
+  
+  .category-card {
+    cursor: pointer; /* Indicate hover effect for clickable cards */
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .category-card img {
+    max-width: 100%; /* Ensure images scale proportionally */
+    height: 150px; /* Adjust image height as needed */
+    object-fit: cover; /* Crop images to fit within the container */
+  }
+  
+  .category-card:hover {
+    transform: scale(1.02); /* Subtle hover effect for emphasis */
+  }
+  
+  .category-card h5 {
+    font-weight: bold;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+  

@@ -1,0 +1,104 @@
+<!-- Start Navbar -->
+<nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark fixed-top"
+  arial-label="Furni navigation bar">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">Ecommerce<span>.</span></a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsFurni">
+      <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/']" [routerLinkActive]="''"
+            [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        </li>
+        <!--   <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/products']" [routerLinkActive]="''"
+            [routerLinkActiveOptions]="{ exact: true }">Products</a>
+        </li>
+       <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/products', 0, 'edit']"
+            [routerLinkActive]="''" [routerLinkActiveOptions]="{ exact: true }">Add
+            Product</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/about']" [routerLinkActive]="''"
+            [routerLinkActiveOptions]="{ exact: true }">About us</a>
+        </li> -->
+        <!-- <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/services']" [routerLinkActive]="''"
+            [routerLinkActiveOptions]="{ exact: true }">Services</a>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/about']" [routerLinkActive]="''"
+            [routerLinkActiveOptions]="{ exact: true }">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/contact']" [routerLinkActive]="''"
+            [routerLinkActiveOptions]="{ exact: true }">Contact us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/register']" [routerLinkActive]="''"
+            [routerLinkActiveOptions]="{ exact: true }">Register</a>
+        </li>
+      </ul>
+
+      <ul class="custom-navbar-cta fs-5 navbar-nav mb-2 mb-md-0 ms-5">
+        <li>
+          <form class="d-flex">
+            <input class="form-control fs-6 rounded-end-0 placeholder-wave " type="search"
+              placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-dark border-light text-light bi-search rounded-start-0"
+              type="submit"></button>
+          </form>
+        </li>
+        <li class="position-relative me-3">
+          <a class="nav-link" href="cart.html"><i class="bi-heart"></i></a><small
+            class="cart-counter position-absolute">+9</small>
+        </li>
+        <li class="position-relative me-3">
+          <a class="nav-link" href="cart.html"><i class="bi-cart"></i></a><small
+            class="cart-counter position-absolute">+9</small>
+        </li>
+        <!-- <button class="ms-3 btn btn-outline-warning">Login
+          <i class="bi-box-arrow-right"></i></button> -->
+
+        @if (isLoggedIn()) {
+        <li class="nav-item dropdown">
+          <div class="dropdown">
+            <ng-container *ngIf="authenticationService.getUserDetails() as userDetails"
+              class="container">
+              <a class="d-flex align-items-center ms-2 text-decoration-none ">
+                <span id="profile-circle" class="text-uppercase fs-5 fw-bold text-dark rounded-circle bg-white text-center me-2">
+                  {{userDetails?.fname[0].toUpperCase()}}
+                </span>
+                <span class="text-light fs-6 fw-bold">{{userDetails?.fname}}</span>
+              </a>
+            </ng-container>
+            <div class="dropdown-content">
+              <a class="" [routerLink]="['/profile']">
+                <i class="bi-person me-2"></i>View Profile
+                </a>
+                <hr class="text-white-50 mx-3 my-0">
+              <a (click)="logout()"><i class="bi-box-arrow-left me-2"></i>Logout</a>
+            </div>
+          </div>
+        </li>
+        } @else {
+        <li class="nav-item dropdown">
+          <a class="ms-3 btn btn-outline-warning" [routerLink]="['/login']" [routerLinkActive]="''"
+            [routerLinkActiveOptions]="{ exact: true }">Login<i
+              class="bi-box-arrow-right ms-1"></i></a>
+          <!-- <button class="ms-3 btn btn-outline-warning">Login
+            <i class="bi-box-arrow-right"></i></button> -->
+        </li>
+        }
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- End Navbar -->
