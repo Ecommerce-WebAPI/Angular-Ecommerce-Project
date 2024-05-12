@@ -69,6 +69,14 @@ export class AuthenticationService {
       fname: decodedToken.name,
       lname: decodedToken.family_name,
       email: decodedToken.email,
+      address: decodedToken.address,
+      phone: decodedToken.phone_number,
+      profileImage: decodedToken.picture,
+      gender: decodedToken.gender,
+      phoneNumber: decodedToken.phone_number,
+      phoneNumberConfirmed: decodedToken.phone_number_confirmed,
+      twoFactorEnabled: decodedToken.two_factor_enabled,
+      accessFailedCount: decodedToken.access_failed_count,
       roles: decodedToken.role || []
     }
     //console.log("loggedin user details: "+JSON.stringify(userDetails));

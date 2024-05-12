@@ -53,14 +53,15 @@ namespace EcommerceAPI.Controllers
             }
 
             // var user = mapper.Map<ApplicationUser>(registerDTO);
-            var user = new ApplicationUser {
+            var user = new ApplicationUser
+            {
                 Email = registerDTO.Email,
                 UserName = registerDTO.Email,
                 FirstName = registerDTO.FirstName,
                 LastName = registerDTO.LastName,
                 Address = registerDTO.Address,
                 Gender = registerDTO.Gender,
-                PhoneNumber = registerDTO.Phone,
+                PhoneNumber = registerDTO.PhoneNumber,
                 ProfileImage = registerDTO.ProfileImage,
             };
 
@@ -153,6 +154,12 @@ namespace EcommerceAPI.Controllers
                 new Claim (JwtRegisteredClaimNames.FamilyName, applicationUser.LastName??""),
                 new Claim (JwtRegisteredClaimNames.Iss, configuration.GetSection("JwtSettings").GetSection("ValidIssuer").Value!??""),
                 new Claim (JwtRegisteredClaimNames.Aud, configuration.GetSection("JwtSettings").GetSection("ValidAudience").Value!??""),
+                new Claim("address", applicationUser.Address ?? ""),
+                new Claim ("phoneNumber", applicationUser.PhoneNumber??""),
+                new Claim ("profileImage", applicationUser.ProfileImage??""),
+                new Claim("phoneNumberConfirmed", applicationUser.PhoneNumberConfirmed.ToString()??""),
+                new Claim("twoFactorEnabled", applicationUser.TwoFactorEnabled.ToString()??""),
+                new Claim("accessFailedCount", applicationUser.AccessFailedCount.ToString()??""),
             ];
 
             var roles = userManager.GetRolesAsync(applicationUser).Result;
@@ -193,11 +200,14 @@ namespace EcommerceAPI.Controllers
                 });
             }
 
-            return Ok(new UserDetailsDTO {
+            return Ok(new UserDetailsDTO
+            {
                 Id = AppUser.Id,
                 Email = AppUser.Email,
                 FirstName = AppUser.FirstName,
                 LastName = AppUser.LastName,
+                Address = AppUser.Address,
+                ProfileImage = AppUser.ProfileImage,
                 Roles = [.. await userManager.GetRolesAsync(AppUser)],
                 PhoneNumber = AppUser.PhoneNumber,
                 PhoneNumberConfirmed = AppUser.PhoneNumberConfirmed,

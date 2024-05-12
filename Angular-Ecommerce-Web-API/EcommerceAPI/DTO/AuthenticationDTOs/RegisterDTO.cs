@@ -30,7 +30,7 @@ namespace EcommerceAPI.DTO.AuthenticationDTOs
         public string? ProfileImage { get; set; }
 
         [Required]
-        public string? Phone { get; set; }
+        public string? PhoneNumber { get; set; }
 
         [Required]
         public Gender Gender { get; set; }

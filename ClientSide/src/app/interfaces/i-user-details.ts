@@ -1,13 +1,13 @@
 export interface IUserDetails {
-    Id?: string;
-    FirstName?: string;
-    LastName?: string;
-    Email?: string;
-    Roles?: string[];
-    PhoneNumber?: string;
-    PhoneNumberConfirmed?: true;
-    TwoFactorEnabled?: true;
-    AccessFailedCount?: 0;
-    Address?: string;
-    ProfileImage?: string;
+    id?: string;
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    roles?: string[];
+    phoneNumber?: string | null;
+    phoneNumberConfirmed?: boolean;
+    twoFactorEnabled?: boolean;
+    accessFailedCount?: number;
+    address?: string;
+    profileImage?: string;
 }
