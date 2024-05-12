@@ -22,9 +22,13 @@ export class AuthenticationService {
     const url =`${this.apiurl}account/login`;
     console.log('login url: '+url);
     return this.http.post<IAuthResponse>(url, data).pipe(
-      map((response)=>{
+      map((response) => {
+        console.log(`login response: ${JSON.stringify(response)}`);
         if(response.isSuccess){
-          localStorage.setItem(this.tokenkey, response.token);
+            localStorage.setItem(this.tokenkey, response.token);
+            // if(data.remember){
+            //   localStorage.setItem(data.email, data.password);
+            // }
         }
         return response;
       })

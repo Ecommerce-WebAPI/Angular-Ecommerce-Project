@@ -5,6 +5,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModu
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import { IRole } from '../../interfaces/i-role';
+import { ILoginRequest } from './../../interfaces/i-login-request';
 import { IRegisterRequest } from '../../interfaces/i-register-request';
 
 @Component({
@@ -15,7 +16,6 @@ import { IRegisterRequest } from '../../interfaces/i-register-request';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent implements OnInit{
-// roles$!: Observable<IRole[]>;
   registerForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     fname: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit{
       Validators.pattern(/^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/)
     ]), 
     confirmPassword: new FormControl('', [Validators.required]),
-    phone: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
+    phoneNumber: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
     address: new FormControl('', [Validators.required]),
 
   }, {
@@ -50,8 +50,8 @@ export class RegisterComponent implements OnInit{
   get address() {
     return this.registerForm.controls['address'];
   }
-  get phone() {
-    return this.registerForm.controls['phone'];
+  get phoneNumber() {
+    return this.registerForm.controls['phoneNumber'];
   }
 
   constructor(public router: Router, public roleService:RoleService, public authenticationService:AuthenticationService) { }
@@ -79,6 +79,13 @@ export class RegisterComponent implements OnInit{
     return null;
   }
 
+  formatPhoneNumber(phoneNumber: string): string {
+    // Add country code (+20)
+    const formattedNumber = `(+20) ${phoneNumber.substring(0, 3)} ${phoneNumber.substring(3, 6)} ${phoneNumber.substring(6)}`;
+
+    return formattedNumber;
+  }
+
   register() {
     console.log("enter register");
     const registerRequest: IRegisterRequest = {
@@ -88,18 +95,24 @@ export class RegisterComponent implements OnInit{
       lastName: this.registerForm.value.lname as string,
       confirmPassword: this.registerForm.value.confirmPassword as string,
       address: this.registerForm.value.address as string,
-      phone: this.registerForm.value.phone as string,
+      phoneNumber: this.formatPhoneNumber(this.registerForm.value.phoneNumber as string),
       roles: ["User"],
       gender:0,
       ProfileImage:"temp.png"
     };
     this.authenticationService.register(registerRequest).subscribe({
       next: (response) => {
+        const loginCredentials: ILoginRequest = {
+          email: this.registerForm.value.email as string,
+          password: this.registerForm.value.password as string,
+        };
+        //this.authenticationService.login(loginCredentials);
+        this.router.navigate(['/login']);
         console.log(response);
       },
       error: (error) => { 
         console.log(error);
       }
-   })
+   });
   }
 }

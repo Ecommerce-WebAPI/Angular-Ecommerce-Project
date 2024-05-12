@@ -204,18 +204,17 @@ namespace EcommerceAPI.Controllers
             {
                 Id = AppUser.Id,
                 Email = AppUser.Email,
-                FirstName = AppUser.FirstName,
-                LastName = AppUser.LastName,
                 Address = AppUser.Address,
-                ProfileImage = AppUser.ProfileImage,
-                Roles = [.. await userManager.GetRolesAsync(AppUser)],
+                LastName = AppUser.LastName,
+                FirstName = AppUser.FirstName,
                 PhoneNumber = AppUser.PhoneNumber,
-                PhoneNumberConfirmed = AppUser.PhoneNumberConfirmed,
+                ProfileImage = AppUser.ProfileImage,
                 TwoFactorEnabled = AppUser.TwoFactorEnabled,
-                AccessFailedCount = AppUser.AccessFailedCount
+                AccessFailedCount = AppUser.AccessFailedCount,
+                PhoneNumberConfirmed = AppUser.PhoneNumberConfirmed,
+                Roles = [.. await userManager.GetRolesAsync(AppUser)],
             });
         }
-
 
         [HttpGet("GetAllUsers")]
         [Authorize(Roles = "Admin, Moderator")]
@@ -226,8 +225,14 @@ namespace EcommerceAPI.Controllers
             {
                 Id = u.Id,
                 Email = u.Email,
-                FirstName = u.FirstName,
+                Address = u.Address,
                 LastName = u.LastName,
+                FirstName = u.FirstName,
+                PhoneNumber = u.PhoneNumber,
+                ProfileImage = u.ProfileImage,
+                TwoFactorEnabled = u.TwoFactorEnabled,
+                AccessFailedCount = u.AccessFailedCount,
+                PhoneNumberConfirmed = u.PhoneNumberConfirmed,
                 Roles = userManager.GetRolesAsync(u).Result.ToArray()
             }).ToList();
             return Ok(DTOs);
