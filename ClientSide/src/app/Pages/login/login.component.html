@@ -40,7 +40,6 @@
                     </div>
                 </div>
 
-
                 <div class="col-12">
                     <div class="form-check">
                         <input class="form-check-input shadow-sm border-2" type="checkbox" value=""
@@ -54,10 +53,13 @@
                 <div class="col-sm-12">
                     <input class="btn btn-primary py-2 mt-3 w-100 " value="Login" type="submit" />
                 </div>
-                <div class="col-sm-12 mt-4">
-                    <p class="text-muted"><a href="#" class="text-muted">Forget password?</a>
 
+                <div class="col-sm-12 mt-4">
+                    <p class="text-muted">
+                        <a routerLink="/forget-password" class="text-muted">Forget password?</a>
+                    </p>
                     <p class="text-muted font-weight-bold">Don't have account?
+
                         <a class="text-muted" [routerLink]="['/register']" [routerLinkActive]="'text-danger'"
                             [routerLinkActiveOptions]="{ exact: true }">Register</a>
                     </p>

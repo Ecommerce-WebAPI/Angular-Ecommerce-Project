@@ -93,4 +93,11 @@ export class AuthenticationService {
      return this.http.get<IUserDetails>(url);
   }
 
+
+  forgetPassword(email:string): Observable<IAuthResponse>{
+    const url = `${this.apiurl}account/forget-password`;
+    console.log(`url of forget password: ${url}`);
+    return this.http.post<IAuthResponse>(url, {email});
+  }
+
 }
