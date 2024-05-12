@@ -7,6 +7,7 @@ import { ILoginRequest } from '../interfaces/i-login-request';
 import { environment } from '../../environments/environment.development';
 import { IAuthResponse } from '../interfaces/i-auth-response';
 import { IRegisterRequest } from '../interfaces/i-register-request';
+import { IUserDetails } from '../interfaces/i-user-details';
 
 @Injectable({
   providedIn: 'root'
@@ -32,11 +33,11 @@ export class AuthenticationService {
   register(data: IRegisterRequest): Observable<IAuthResponse> {
     const url =`${this.apiurl}account/register`;
     console.log('register url: ' + url);
-    console.log("From Register on authService:"+ JSON.stringify(data));
+    //console.log("From Register on authService:"+ JSON.stringify(data));
     return this.http.post<IAuthResponse>(url, data);
   }
 
-  private getToken():string|null{
+  getToken():string|null{
     return localStorage.getItem(this.tokenkey) || null;
   }
 
@@ -59,7 +60,7 @@ export class AuthenticationService {
     localStorage.removeItem(this.tokenkey);
   }
   
-  getUserDetails(){
+  fetchUserDetails(){
     const token = this.getToken();
     if(!token)return null;
     const decodedToken: any = jwtDecode(token);
@@ -70,8 +71,14 @@ export class AuthenticationService {
       email: decodedToken.email,
       roles: decodedToken.role || []
     }
-    console.log("loggedin user details: "+JSON.stringify(userDetails));
+    //console.log("loggedin user details: "+JSON.stringify(userDetails));
     return userDetails;
+  }
+
+  getUserDetails():Observable<IUserDetails>{
+    const url = `${this.apiurl}Account/GetUserDetails`;
+    console.log(`url of get user detail: ${url}`);
+     return this.http.get<IUserDetails>(url);
   }
 
 }

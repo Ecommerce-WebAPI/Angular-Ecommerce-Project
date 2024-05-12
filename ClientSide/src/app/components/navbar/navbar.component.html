@@ -69,7 +69,7 @@
         @if (isLoggedIn()) {
         <li class="nav-item dropdown mt-1">
           <div class="dropdown">
-            <ng-container *ngIf="authenticationService.getUserDetails() as userDetails" class="container">
+            <ng-container *ngIf="authenticationService.fetchUserDetails() as userDetails" class="container">
               <a class="d-flex align-items-center ms-2 text-decoration-none ">
                 <span id="profile-circle"
                   class="text-uppercase fs-5 fw-bold text-dark rounded-circle bg-white text-center me-2">
@@ -79,7 +79,7 @@
               </a>
             </ng-container>
             <div class="dropdown-content">
-              <a class="" [routerLink]="['/profile']">
+              <a class="" [routerLink]="['/profile','65ed37d3-db87-494d-8599-310038891742']">
                 <i class="bi-person me-2"></i>View Profile
               </a>
               <hr class="text-white-50 mx-3 my-0">

@@ -17,7 +17,7 @@ export const routes: Routes = [
   // { path: 'products/:id/edit', component: ProductFormComponent },
    { path: 'register', component: RegisterComponent },
    { path: 'login', component: LoginComponent },
-   { path: 'profile', component: ProfileComponent },
+   { path: 'profile/:id', component: ProfileComponent },
    { path: 'admin', component: AdminDashboardComponent },
 
   { path: '**', component: NotfoundComponent },
