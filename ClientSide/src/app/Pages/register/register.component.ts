@@ -5,6 +5,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModu
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import { IRole } from '../../interfaces/i-role';
+import { IRegisterRequest } from '../../interfaces/i-register-request';
 
 @Component({
   selector: 'app-register',
@@ -23,20 +24,10 @@ export class RegisterComponent implements OnInit{
       Validators.required,
       Validators.minLength(8),
       Validators.pattern(/^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/)
-    ]),
-    
-    // password: new FormControl('', [
-    //   Validators.required,
-    //   Validators.minLength(8),
-    //   Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
-    //   // Validators.pattern(/[a-z]/),
-    //   // Validators.pattern(/[A-Z]/), 
-    //   // Validators.pattern(/\d/),     
-    //   // Validators.pattern(/[@$!%*?&]/) 
-    // ]),
+    ]), 
     confirmPassword: new FormControl('', [Validators.required]),
     phone: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
-    country: new FormControl('', [Validators.required]),
+    address: new FormControl('', [Validators.required]),
 
   }, {
     validators:this.validatePasswordConfirmation,
@@ -56,8 +47,8 @@ export class RegisterComponent implements OnInit{
   get confirmPassword() {
     return this.registerForm.controls['confirmPassword'];
   }
-  get country() {
-    return this.registerForm.controls['country'];
+  get address() {
+    return this.registerForm.controls['address'];
   }
   get phone() {
     return this.registerForm.controls['phone'];
@@ -90,14 +81,25 @@ export class RegisterComponent implements OnInit{
 
   register() {
     console.log("enter register");
-    this.authenticationService.register(this.registerForm.value).subscribe({
+    const registerRequest: IRegisterRequest = {
+      email: this.registerForm.value.email as string,
+      password: this.registerForm.value.password as string,
+      firstName: this.registerForm.value.fname as string,
+      lastName: this.registerForm.value.lname as string,
+      confirmPassword: this.registerForm.value.confirmPassword as string,
+      address: this.registerForm.value.address as string,
+      phone: this.registerForm.value.phone as string,
+      roles: ["User"],
+      gender:0,
+      ProfileImage:"temp.png"
+    };
+    this.authenticationService.register(registerRequest).subscribe({
       next: (response) => {
         console.log(response);
       },
       error: (error) => { 
         console.log(error);
       }
-
    })
   }
 }

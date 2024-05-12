@@ -4,7 +4,9 @@ export interface IRegisterRequest {
     confirmPassword?: string;
     firstName?: string;
     lastName?: string;
+    phone?: string;
     address?: string;
     gender?: number;
-    roles?: [string]
+    ProfileImage?:string;
+    roles?: [string];
 }

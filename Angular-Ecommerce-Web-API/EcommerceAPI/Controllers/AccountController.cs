@@ -67,7 +67,7 @@ namespace EcommerceAPI.Controllers
             // check needed?
             if (registerDTO.Password != registerDTO.ConfirmPassword)
             {
-                return BadRequest("Passwords not matched ...");
+                return BadRequest("Passwords aren't matched ...");
             }
 
             var result = await userManager.CreateAsync(user, registerDTO.Password);

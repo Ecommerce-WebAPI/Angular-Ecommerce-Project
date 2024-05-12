@@ -19,7 +19,7 @@ export class AuthenticationService {
 
   login(data: ILoginRequest): Observable<IAuthResponse> {
     const url =`${this.apiurl}account/login`;
-    console.log('url: '+url);
+    console.log('login url: '+url);
     return this.http.post<IAuthResponse>(url, data).pipe(
       map((response)=>{
         if(response.isSuccess){
@@ -29,10 +29,10 @@ export class AuthenticationService {
       })
     );
   }
-  register(data: any): Observable<IAuthResponse> {
+  register(data: IRegisterRequest): Observable<IAuthResponse> {
     const url =`${this.apiurl}account/register`;
-    console.log('url: ' + url);
-  console.log("From Register on authService:"+ JSON.stringify(data));
+    console.log('register url: ' + url);
+    console.log("From Register on authService:"+ JSON.stringify(data));
     return this.http.post<IAuthResponse>(url, data);
   }
 

@@ -4,9 +4,8 @@
   <div class="container">
     <a class="navbar-brand" href="index.html">Ecommerce<span>.</span></a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-      data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false"
-      aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
+      aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -50,8 +49,8 @@
       <ul class="custom-navbar-cta fs-5 navbar-nav mb-2 mb-md-0 ms-5">
         <li>
           <form class="d-flex">
-            <input class="form-control fs-6 rounded-end-0 placeholder-wave " type="search"
-              placeholder="Search" aria-label="Search">
+            <input class="form-control fs-6 rounded-end-0 placeholder-wave " type="search" placeholder="Search"
+              aria-label="Search">
             <button class="btn btn-outline-dark border-light text-light bi-search rounded-start-0"
               type="submit"></button>
           </form>
@@ -68,12 +67,12 @@
           <i class="bi-box-arrow-right"></i></button> -->
 
         @if (isLoggedIn()) {
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown mt-1">
           <div class="dropdown">
-            <ng-container *ngIf="authenticationService.getUserDetails() as userDetails"
-              class="container">
+            <ng-container *ngIf="authenticationService.getUserDetails() as userDetails" class="container">
               <a class="d-flex align-items-center ms-2 text-decoration-none ">
-                <span id="profile-circle" class="text-uppercase fs-5 fw-bold text-dark rounded-circle bg-white text-center me-2">
+                <span id="profile-circle"
+                  class="text-uppercase fs-5 fw-bold text-dark rounded-circle bg-white text-center me-2">
                   {{userDetails?.fname[0].toUpperCase()}}
                 </span>
                 <span class="text-light fs-6 fw-bold">{{userDetails?.fname}}</span>
@@ -82,8 +81,8 @@
             <div class="dropdown-content">
               <a class="" [routerLink]="['/profile']">
                 <i class="bi-person me-2"></i>View Profile
-                </a>
-                <hr class="text-white-50 mx-3 my-0">
+              </a>
+              <hr class="text-white-50 mx-3 my-0">
               <a (click)="logout()"><i class="bi-box-arrow-left me-2"></i>Logout</a>
             </div>
           </div>
@@ -91,8 +90,7 @@
         } @else {
         <li class="nav-item dropdown">
           <a class="ms-3 btn btn-outline-warning" [routerLink]="['/login']" [routerLinkActive]="''"
-            [routerLinkActiveOptions]="{ exact: true }">Login<i
-              class="bi-box-arrow-right ms-1"></i></a>
+            [routerLinkActiveOptions]="{ exact: true }">Login<i class="bi-box-arrow-right ms-1"></i></a>
           <!-- <button class="ms-3 btn btn-outline-warning">Login
             <i class="bi-box-arrow-right"></i></button> -->
         </li>
