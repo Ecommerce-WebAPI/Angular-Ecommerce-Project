@@ -22,7 +22,6 @@ export class AdminProductFormComponent implements OnInit, OnDestroy {
     image: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
     discount: new FormControl(null),
-    imageUrl: new FormControl(null)
 
   })
 
@@ -133,6 +132,7 @@ export class AdminProductFormComponent implements OnInit, OnDestroy {
 
   selectedFile: File | undefined;
   onFileSelected(event: any) {
+    console.log("file selected");
     this.selectedFile = event.target.files[0] as File;
     this.uploadFile();
   }
@@ -149,8 +149,9 @@ export class AdminProductFormComponent implements OnInit, OnDestroy {
         .then((response) => response.json())
         .then((data) => {
           if (data.secure_url) {
-            console.log(`Uploaded Image Url ${data.secure_url}`);
-            this.productForm?.patchValue({ imageUrl: data.secure_url });
+            console.log(`Uploaded Image Url : xx : ${data.secure_url}`);
+            this.productForm?.patchValue({ image: data.secure_url });
+            console.log(`Uploaded Image Url : xx : ${this.getImage}`);
           }
         })
         .catch((error) => {

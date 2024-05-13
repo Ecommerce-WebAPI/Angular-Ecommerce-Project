@@ -11,6 +11,7 @@ import { ProductFormComponent } from './Pages/products/product-form/product-form
 import { ProductDetailsComponent } from './Pages/products/product-details/product-details.component';
 import { ProductsComponent } from './Pages/products/products.component';
 import { AdminProductsComponent } from './Pages/admin-products/admin-products.component';
+import { AdminProductFormComponent } from './Pages/admin-products/admin-product-form/admin-product-form.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,7 +19,7 @@ export const routes: Routes = [
   {path: 'contact', component: ContactComponent},
   { path: 'adminproducts', component: AdminProductsComponent},
   { path: 'products/:id', component: ProductDetailsComponent },
-  { path: 'adminproducts/:id/edit', component: ProductFormComponent },
+  { path: 'adminproducts/:id/edit', component: AdminProductFormComponent },
    { path: 'register', component: RegisterComponent },
    { path: 'login', component: LoginComponent },
    { path: 'profile/:id', component: ProfileComponent },
