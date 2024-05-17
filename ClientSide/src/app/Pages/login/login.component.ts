@@ -5,6 +5,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ILoginRequest } from '../../interfaces/i-login-request';
 import Swal from 'sweetalert2';
+import { VisibilityService } from '../../services/visibility.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ import Swal from 'sweetalert2';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -21,8 +22,14 @@ export class LoginComponent {
     remember: new FormControl('')
   });
 
-  constructor(public authenticationService: AuthenticationService, public router:Router){}
+  constructor(public authenticationService: AuthenticationService, public router:Router, public visibilityService: VisibilityService){}
+  ngOnInit() {
+    this.visibilityService.changeVisibility(false);
+  }
 
+  ngOnDestroy() {
+    this.visibilityService.changeVisibility(true);
+  }
   login() {
     const loginRequest: ILoginRequest = {
       email: this.loginForm.value.email as string,

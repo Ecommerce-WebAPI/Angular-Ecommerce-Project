@@ -1,12 +1,12 @@
 import { RoleService } from './../../services/role.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
-import { IRole } from '../../interfaces/i-role';
 import { ILoginRequest } from './../../interfaces/i-login-request';
 import { IRegisterRequest } from '../../interfaces/i-register-request';
+import { VisibilityService } from '../../services/visibility.service';
 
 @Component({
   selector: 'app-register',
@@ -54,11 +54,15 @@ export class RegisterComponent implements OnInit{
     return this.registerForm.controls['phoneNumber'];
   }
 
-  constructor(public router: Router, public roleService:RoleService, public authenticationService:AuthenticationService) { }
-  ngOnInit(): void {
-    // this.roles$ = this.roleService.getRoles();
+  constructor(public router: Router, public roleService:RoleService, public authenticationService:AuthenticationService, public visibilityService: VisibilityService) { }
+  
+  ngOnInit() {
+    this.visibilityService.changeVisibility(false);
   }
 
+  ngOnDestroy() {
+    this.visibilityService.changeVisibility(true);
+  }
   isPasswordVisible: boolean = false;
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
