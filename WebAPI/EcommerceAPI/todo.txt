@@ -1,0 +1,47 @@
+											---
+											|&|
+											---
+
+[*] note:  !  -> called null-forgiving operator used in the jwt in program.cs
+
+[1] Pagination
+
+[2] soft Delete
+
+[3] Upload Images
+
+[4] Product Status : [New, Popular, Feature, ... ]
+
+[5] Countries Flags and Search with country name  -> register form
+
+
+<input id="image" type="file" (change)="onFileSelected($event)" accept="image/*" class="form-control">
+
+  selectedFile: File | undefined;
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0] as File;
+    this.uploadFile();
+  }
+
+  uploadFile() {
+    if (this.selectedFile) {
+      const formData = new FormData();
+      formData.append('file', this.selectedFile);
+      formData.append('upload_preset', 'coss578i');
+
+      fetch('https://api.cloudinary.com/v1_1/dgcok5dgw/image/upload', {
+        method: 'POST',
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.secure_url) {
+            this.productForm?.patchValue({ imageUrl: data.secure_url });
+          }
+        })
+        .catch((error) => {
+          console.error('Error uploading file to Cloudinary:', error);
+        });
+    }
+  }

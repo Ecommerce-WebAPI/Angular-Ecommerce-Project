@@ -1,7 +1,6 @@
 <app-admin-sidebar></app-admin-sidebar>
 
 <main id="main" class="main">
-  <!-- End Page Title -->
   <section class="section px-4 m-auto">
     <div class="row">
       <div class="col-lg-12">
@@ -34,9 +33,8 @@
               <div class="col-12">
                 <textarea
                   class="form-control"
-                  id="productDescription"
+                  id="productDescription "
                   placeholder="Product Description"
-                  id="floatingTextarea"
                   style="height: 70px;"
                 ></textarea>
               </div>
@@ -53,37 +51,83 @@
                   class="form-control"
                   id="price"
                   placeholder="price"
+                  formControlName="price"
                 />
               </div>
+              <ng-container *ngIf="getPrice?.touched">
+                <div
+                  *ngIf="getPrice?.hasError('required')"
+                  id="priceHelp"
+                  class="form-text text-danger pt-0"
+                ></div>
+              </ng-container>
               <div class="col-12">
                 <input
                   type="number"
                   class="form-control"
                   id="quantity"
                   placeholder="quantity"
+                  formControlName="quantity"
                 />
               </div>
+              <ng-container *ngIf="getQuantity?.touched">
+                <div
+                  *ngIf="getQuantity?.hasError('required')"
+                  id="quantityHelp"
+                  class="form-text text-danger pt-0"
+                ></div>
+              </ng-container>
               <div class="col-12">
                 <input
                   type="file"
                   class="form-control"
-                  id="image"
+                  id="productimage"
                   formControlName="image" 
                   (change)="onFileSelected($event)" 
                   accept="image/*" 
                   placeholder="upload image"
                 />
               </div>
+              <ng-container *ngIf="getImage?.touched">
+                <div
+                  *ngIf="getImage?.hasError('required')"
+                  id="imageHelp"
+                  class="form-text text-danger pt-0"
+                ></div>
+              </ng-container>
               <div class="col-12">
                 <input
                   type="number"
                   class="form-control"
                   id="discount"
                   placeholder="discount"
+                  formControlName="discount"
                 />
               </div>
-
+              <ng-container *ngIf="getDiscount?.touched">
+                <div
+                  *ngIf="getDiscount?.hasError('required')"
+                  id="discountHelp"
+                  class="form-text text-danger pt-0"
+                ></div>
+              </ng-container>
               <div class="col-12">
+                <input
+                  type="number"
+                  class="form-control"
+                  id="categoryId"
+                  formControlName="categoryId"
+                  placeholder="product category"
+                />
+              </div>
+              <ng-container *ngIf="getCategoryId?.touched">
+                <div
+                  *ngIf="getCategoryId?.hasError('required')"
+                  id="categoryHelp"
+                  class="form-text text-danger pt-0"
+                ></div>
+              </ng-container>
+              <!-- <div class="col-12">
                 <select
                   id="category"
                   class="form-select"
@@ -94,7 +138,7 @@
                     >{{getCategoryId}}</option
                   >
                 </select>
-              </div>
+              </div> -->
 
               <div class="text-center">
                 <button type="submit" class="btn btn-primary px-4 me-3">

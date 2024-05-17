@@ -130,33 +130,72 @@ export class AdminProductFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectedFile: File | undefined;
-  onFileSelected(event: any) {
-    console.log("file selected");
-    this.selectedFile = event.target.files[0] as File;
-    this.uploadFile();
-  }
-  uploadFile() {
-    if (this.selectedFile) {
-      const formData = new FormData();
-      formData.append('file', this.selectedFile);
-      formData.append('upload_preset', 'angular_images');
 
-      fetch('https://api.cloudinary.com/v1_1/dbo2eybma/image/upload', {
-        method: 'POST',
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.secure_url) {
-            console.log(`Uploaded Image Url : xx : ${data.secure_url}`);
-            this.productForm?.patchValue({ image: data.secure_url });
-            console.log(`Uploaded Image Url : xx : ${this.getImage}`);
-          }
-        })
-        .catch((error) => {
-          console.error('Error uploading file to Cloudinary:', error);
-        });
-    }
+
+  // selectedFile: File | undefined;
+  // onFileSelected(event: any) {
+  //   console.log("file selected");
+  //   this.selectedFile = event.target.files[0] as File;
+  //   this.uploadFile();
+  // }
+  // uploadFile() {
+  //   if (this.selectedFile) {
+  //     const formData = new FormData();
+  //     formData.append('file', this.selectedFile);
+  //     formData.append('upload_preset', 'angular_images');
+
+  //     fetch('https://api.cloudinary.com/v1_1/dbo2eybma/image/upload', {
+  //       method: 'POST',
+  //       body: formData,
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         if (data.secure_url) {
+  //           console.log(`Uploaded Image Url : xx : ${data.secure_url}`);
+  //           this.productForm?.patchValue({ image: data.secure_url });
+  //           console.log(`Uploaded Image Url : xx : ${this.getImage}`);
+  //           console.log(`Updated Image Url: ${this.getImage?.value}`);
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error uploading file to Cloudinary:', error);
+  //       });
+  //   }
+  // }
+
+  
+  selectedFile: File | undefined;
+  async onFileSelected(event: any) {
+      console.log("file selected");
+      this.selectedFile = event.target.files[0] as File;
+      await this.uploadFile();
+  }
+  async uploadFile() {
+      if (this.selectedFile) {
+          const formData = new FormData();
+          formData.append('file', this.selectedFile);
+          formData.append('upload_preset', 'angular_images');
+          fetch('https://api.cloudinary.com/v1_1/dbo2eybma/image/upload', {
+              method: 'POST',
+              body: formData,
+          })
+              .then(async (response) => await response.json())
+              .then(async (data) => {
+                  if (data.secure_url) {
+                      console.log("url:" + data.secure_url);
+                      this.productForm?.patchValue({ image: data.secure_url });
+                      console.log("image:" + this.getImage);
+                      this.productForm?.markAsDirty();
+
+                  }
+              })
+              .catch((error) => {
+                  console.error('Error uploading file to Cloudinary:', error);
+              });
+      }
+  }
+
+  testImgURL() {
+      console.log("xxx:" + this.productForm?.controls['image'].value);
   }
 }

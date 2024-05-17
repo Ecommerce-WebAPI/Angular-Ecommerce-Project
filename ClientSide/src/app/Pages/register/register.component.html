@@ -130,16 +130,17 @@
                             <option value="">+15</option>
                             <option value="">+10</option>
                         </select>
-                        <input type="text" formControlName="phone" class="form-control shadow-sm border-md py-2"
+                        <input type="text" formControlName="phoneNumber" class="form-control shadow-sm border-md py-2"
                             id="validationCustomPhoneNumber" aria-describedby="inputGroupPrepend"
                             placeholder="Phone Number" required>
                     </div>
-                    <ng-container *ngIf="phone.touched">
-                        <div *ngIf="phone.hasError('required')" id="PhoneHelp" class="form-text text-danger">
+                    <ng-container *ngIf="phoneNumber.touched">
+                        <div *ngIf="phoneNumber.hasError('required')" id="phoneNumberHelp"
+                            class="form-text text-danger">
                             Phone number is required.
                         </div>
-                        <div *ngIf="phone.hasError('minlength') || phone.hasError('maxlength') " id="PhoneHelp"
-                            class="form-text text-danger">
+                        <div *ngIf="phoneNumber.hasError('minlength') || phoneNumber.hasError('maxlength') "
+                            id="PhoneNumberHelp" class="form-text text-danger">
                             Invalid phone number.
                         </div>
                     </ng-container>

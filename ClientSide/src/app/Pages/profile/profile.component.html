@@ -1,6 +1,5 @@
 <div class=" p-5">
     <div class="pagetitle">
-
         <nav>
             <ol class="breadcrumb text-center">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -10,14 +9,14 @@
         </nav>
     </div>
     <section class="section profile">
-        <div class="row">
+        <div class="row" *ngIf="(getUserDetails$ | async) as getUserDetails$">
             <div class="col-xl-4">
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                        <img src="{{getUserDetails$?.ProfileImage}}" alt="Profile" class="rounded-circle shadow">
-                        <h2 class="mt-4">{{getUserDetails$?.FirstName}} {{getUserDetails$?.LastName}}</h2>
-                        <p>{{getUserDetails$?.Email}}</p>
-                        <h6>{{getUserDetails$?.Address}}</h6>
+                        <img [src]="getUserDetails$.profileImage" alt="Profile" class="rounded-circle shadow">
+                        <h2 class="mt-4">{{ getUserDetails$.firstName }} {{ getUserDetails$.lastName }}</h2>
+                        <p>{{ getUserDetails$.email }}</p>
+                        <h6>{{ getUserDetails$.address }}</h6>
                         <div class="social-links mt-4">
                             <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
                             <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -64,24 +63,24 @@
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                                    <div class="col-lg-9 col-md-8">{{getUserDetails$?.FirstName}}
-                                        {{getUserDetails$?.LastName}}
+                                    <div class="col-lg-9 col-md-8">{{getUserDetails$.firstName}}
+                                        {{getUserDetails$.lastName}}
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label ">Email</div>
-                                    <div class="col-lg-9 col-md-8">{{getUserDetails$?.Email}}</div>
+                                    <div class="col-lg-3 col-md-4 label ">email</div>
+                                    <div class="col-lg-9 col-md-8">{{getUserDetails$.email}}</div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Address</div>
-                                    <div class="col-lg-9 col-md-8">{{getUserDetails$?.Address}}</div>
+                                    <div class="col-lg-3 col-md-4 label">address</div>
+                                    <div class="col-lg-9 col-md-8">{{getUserDetails$.address}}</div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Phone</div>
-                                    <div class="col-lg-9 col-md-8">{{getUserDetails$?.PhoneNumber}}</div>
+                                    <div class="col-lg-9 col-md-8">{{getUserDetails$.phoneNumber}}</div>
                                 </div>
 
                             </div>
@@ -94,7 +93,7 @@
                                         <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile
                                             Image</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <img src="{{getUserDetails$?.ProfileImage}}" alt="Profile">
+                                            <img src="{{getUserDetails$.profileImage}}" alt="Profile">
                                             <div class="pt-2">
                                                 <a href="#" class="btn btn-primary btn-sm me-2"
                                                     title="Upload new profile image"><i class="bi bi-upload"></i></a>
@@ -117,31 +116,29 @@
                                             Name</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="lastName" type="text" class="form-control" id="lastName"
-                                                value="Sorour">
+                                                value="">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
+                                        <label for="address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="address" type="text" class="form-control" id="Address"
-                                                value="A108 Adam Street, New York, NY 535022">
+                                            <input name="address" type="text" class="form-control" id="address"
+                                                value="">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="phone" type="text" class="form-control" id="Phone"
-                                                value="(+20) 128 842 7468">
+                                            <input name="phone" type="text" class="form-control" id="Phone" value="">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                                        <label for="email" class="col-md-4 col-lg-3 col-form-label">email</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="email" type="email" class="form-control" id="Email"
-                                                value="fatmamohamed862s@gmail.com">
+                                            <input name="email" type="email" class="form-control" id="email" value="">
                                         </div>
                                     </div>
 

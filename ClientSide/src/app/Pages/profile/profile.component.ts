@@ -12,19 +12,21 @@ import { Observable, of } from 'rxjs';
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent implements OnInit {
-  getUserDetails$: any;
-
+  
   constructor(public authenticationService: AuthenticationService) {}
 
+  getUserDetails$ = this.authenticationService.getUserDetails();
+  
   ngOnInit(): void {
-    this.authenticationService.getUserDetails().subscribe({
-      next: (res) => {
-        this.getUserDetails$ = res; 
-        console.log('===> user details JSON:', JSON.stringify(this.getUserDetails$));
-      },
-      error: (err) => {
-        console.error('Error fetching user details:', err);
-      }
-    });
+
+    // this.authenticationService.getUserDetails().subscribe({
+    //   next: (res) => {
+    //     this.getUserDetails$ = res; 
+    //     console.log('===> user details JSON:', JSON.stringify(this.getUserDetails$));
+    //   },
+    //   error: (err) => {
+    //     console.error('Error fetching user details:', err);
+    //   }
+    // });
   }
 }

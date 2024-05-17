@@ -18,6 +18,7 @@ export class LoginComponent {
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
+    remember: new FormControl('')
   });
 
   constructor(public authenticationService: AuthenticationService, public router:Router){}
@@ -25,8 +26,19 @@ export class LoginComponent {
   login() {
     const loginRequest: ILoginRequest = {
       email: this.loginForm.value.email as string,
-      password: this.loginForm.value.password as string
+      password: this.loginForm.value.password as string,
+      remember: this.loginForm.value.remember as any
     };
+
+    // find email in localstorage
+
+    // const pass = localStorage.getItem(loginRequest.email);
+    // if(pass){
+    //   loginRequest.password = pass;
+    // }
+
+
+    console.log(`login request: ${JSON.stringify(loginRequest)}`);
     this.authenticationService.login(loginRequest).subscribe({
       next:(response)=> {
         this.router.navigate(['/']);

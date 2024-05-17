@@ -1,0 +1,97 @@
+<app-admin-sidebar></app-admin-sidebar>
+
+<main id="main" class="main">
+  <!-- End Page Title -->
+  <section class="section px-4 m-auto">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card p-4">
+          <div class="card-body">
+            <form
+              [formGroup]="categoryForm!"
+              *ngIf="categoryForm"
+              (ngSubmit)="categoryHandler()"
+              class="row g-3"
+            >
+              <h3 class="my-4 text-muted text-center">
+                {{ categoryId == 0 ? "Add Category" : "Edit Category" }}
+              </h3>
+
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                name="name"
+                formControlName="name"
+                required
+                placeholder="category name"
+                />
+                <ng-container *ngIf="getName?.touched">
+                  <div
+                  *ngIf="getName?.hasError('required')"
+                  id="categoryHelp"
+                  class="form-text text-danger pt-0"
+                >
+                  Field is required.
+                </div>
+              </ng-container>
+              
+              <input
+              type="text"
+              class="form-control"
+              id="description"
+              name="description"
+              formControlName="description"
+              required
+              placeholder="category description"
+              />
+              <ng-container *ngIf="getDescription?.touched">
+                <div
+                  *ngIf="getDescription?.hasError('required')"
+                  id="descriptionHelp"
+                  class="form-text text-danger pt-0"
+                >
+                  Field is required.
+                </div>
+              </ng-container>
+
+              <input
+                type="file"
+                class="form-control"
+                id="image"
+                name="image"
+                formControlName="image"
+                (change)="onFileSelected($event)"
+                accept="image/*"
+                required
+              />
+
+              <ng-container *ngIf="getImage?.touched">
+                <div
+                  *ngIf="getImage?.hasError('required')"
+                  id="imageHelp"
+                  class="form-text text-danger pt-0"
+                >
+                  Field is required.
+                </div>
+              </ng-container>
+              <div class="text-center">
+                <button
+                  type="submit"
+                  (click)="testImgURL()"
+                  class="btn btn-primary px-4 me-3"
+                >
+                  Add
+                </button>
+              </div>
+
+              <div class="">{{categoryForm.value.name}}</div>
+              <div class="">{{categoryForm.value.description}}</div>
+              <div class="">{{categoryForm.value.image}}</div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
