@@ -57,6 +57,15 @@ namespace EcommerceAPI.Unit_Of_Work
             }
         }
 
+        private CategoryRepository categoryRepository;
+        public CategoryRepository CategoryRepository
+        {
+            get
+            {
+                return categoryRepository ?? (categoryRepository = new CategoryRepository(db));
+            }
+        }
+
         private GenericRepository<Cart> cartGenericRepository;
         public GenericRepository<Cart> CartGenericRepository
         {

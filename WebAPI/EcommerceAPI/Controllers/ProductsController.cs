@@ -40,6 +40,10 @@ namespace EcommerceAPI.Controllers
             {
                 var Products = await unitOfWork.ProductGenericRepository.GetAll();
                 var PDTOs = Products.Select(p => mapper.Map<ProductDTO>(p));
+                foreach (var PDTO in PDTOs)
+                {
+                    PDTO.CategoryName = await unitOfWork.CategoryRepository.GetCategoryNameById(PDTO.CategoryId);
+                }
                 return Ok(PDTOs);
             }
             catch (Exception ex)
@@ -66,8 +70,9 @@ namespace EcommerceAPI.Controllers
                 {
                     return BadRequest("No such Product with the provided id");
                 }
-                var PDTOs = mapper.Map<ProductDTO>(product);
-                return Ok(PDTOs);
+                var PDTO = mapper.Map<ProductDTO>(product);
+                PDTO.CategoryName = await unitOfWork.CategoryRepository.GetCategoryNameById(PDTO.CategoryId);
+                return Ok(PDTO);
             }
             catch (Exception ex)
             {
