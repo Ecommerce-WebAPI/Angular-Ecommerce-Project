@@ -1,0 +1,157 @@
+<app-admin-sidebar></app-admin-sidebar>
+
+<main id="main" class="main">
+  <section class="section px-4 m-auto">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card p-4">
+          <div class="card-body">
+            <h3 class="my-3 text-center">
+              {{productId==0 ? "Add Product":"Edit Product"}}
+            </h3>
+            <form
+              [formGroup]="productForm"
+              (ngSubmit)="productHandler()"
+              class="row g-3"
+            >
+              <div class="col-md-12">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="productName"
+                  placeholder="product name"
+                  formControlName="name"
+                />
+              </div>
+              <ng-container *ngIf="getName?.touched">
+                <div
+                  *ngIf="getName?.hasError('required')"
+                  id="nameHelp"
+                  class="form-text text-danger pt-0"
+                ></div>
+              </ng-container>
+              <div class="col-12">
+                <textarea
+                  class="form-control"
+                  id="productDescription "
+                  placeholder="Product Description"
+                  style="height: 70px;"
+                ></textarea>
+              </div>
+              <ng-container *ngIf="getDescription?.touched">
+                <div
+                  *ngIf="getDescription?.hasError('required')"
+                  id="descriptionHelp"
+                  class="form-text text-danger pt-0"
+                ></div>
+              </ng-container>
+              <div class="col-12">
+                <input
+                  type="number"
+                  class="form-control"
+                  id="price"
+                  placeholder="price"
+                  formControlName="price"
+                />
+              </div>
+              <ng-container *ngIf="getPrice?.touched">
+                <div
+                  *ngIf="getPrice?.hasError('required')"
+                  id="priceHelp"
+                  class="form-text text-danger pt-0"
+                ></div>
+              </ng-container>
+              <div class="col-12">
+                <input
+                  type="number"
+                  class="form-control"
+                  id="quantity"
+                  placeholder="quantity"
+                  formControlName="quantity"
+                />
+              </div>
+              <ng-container *ngIf="getQuantity?.touched">
+                <div
+                  *ngIf="getQuantity?.hasError('required')"
+                  id="quantityHelp"
+                  class="form-text text-danger pt-0"
+                ></div>
+              </ng-container>
+              <div class="col-12">
+                <input
+                  type="file"
+                  class="form-control"
+                  id="productimage"
+                  formControlName="image" 
+                  (change)="onFileSelected($event)" 
+                  accept="image/*" 
+                  placeholder="upload image"
+                />
+              </div>
+              <ng-container *ngIf="getImage?.touched">
+                <div
+                  *ngIf="getImage?.hasError('required')"
+                  id="imageHelp"
+                  class="form-text text-danger pt-0"
+                ></div>
+              </ng-container>
+              <div class="col-12">
+                <input
+                  type="number"
+                  class="form-control"
+                  id="discount"
+                  placeholder="discount"
+                  formControlName="discount"
+                />
+              </div>
+              <ng-container *ngIf="getDiscount?.touched">
+                <div
+                  *ngIf="getDiscount?.hasError('required')"
+                  id="discountHelp"
+                  class="form-text text-danger pt-0"
+                ></div>
+              </ng-container>
+              <div class="col-12">
+                <input
+                  type="number"
+                  class="form-control"
+                  id="categoryId"
+                  formControlName="categoryId"
+                  placeholder="product category"
+                />
+              </div>
+              <ng-container *ngIf="getCategoryId?.touched">
+                <div
+                  *ngIf="getCategoryId?.hasError('required')"
+                  id="categoryHelp"
+                  class="form-text text-danger pt-0"
+                ></div>
+              </ng-container>
+              <!-- <div class="col-12">
+                <select
+                  id="category"
+                  class="form-select"
+                  formControlName="categoryId"
+                >
+                  <option selected disabled>Choose ...</option>
+                  <option *ngFor="let category of product"
+                    >{{getCategoryId}}</option
+                  >
+                </select>
+              </div> -->
+
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary px-4 me-3">
+                  Submit
+                </button>
+                <button type="reset" class="btn btn-secondary px-4">
+                  Reset
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
