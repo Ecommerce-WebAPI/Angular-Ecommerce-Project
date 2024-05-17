@@ -7,4 +7,5 @@ export interface IProduct {
     image?: string;
     discount?: number;
     categoryId?: number;
+    categoryName?: string;
 }

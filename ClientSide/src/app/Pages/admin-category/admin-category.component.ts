@@ -1,3 +1,4 @@
+import { RouterLink } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AdminSidebarComponent } from "../../components/admin-sidebar/admin-sidebar.component";
 import { ICategory } from '../../interfaces/i-category';
@@ -9,7 +10,7 @@ import { CommonModule } from '@angular/common';
     standalone: true,
     templateUrl: './admin-category.component.html',
     styleUrl: './admin-category.component.css',
-    imports: [AdminSidebarComponent, CommonModule]
+    imports: [AdminSidebarComponent, CommonModule, RouterLink]
 })
 export class AdminCategoryComponent implements OnInit {
 

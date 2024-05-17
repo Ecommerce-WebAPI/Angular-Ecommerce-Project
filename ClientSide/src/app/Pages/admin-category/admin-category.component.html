@@ -40,9 +40,12 @@
                       <td>{{item.name}}</td>
                       <td class="overflow-hidden">{{item.description}}</td>
                       <td>
-                        <div class="btn text-info py-1 px-2 me-2 border-end"><i class="bi-eye"></i></div>
-                        <div class="btn text-muted py-1 px-2 me-2 border-end"><i class="bi-pencil-square"></i></div>
-                        <div class="btn text-danger py-1 px-2 me-2"><i class="bi-trash"></i></div>
+                        <div class="btn text-info py-1 px-2 me-2 border-end"
+                        [routerLink]="['/admincategory', item.id]"><i class="bi-eye"></i></div>
+                        <div class="btn text-muted py-1 px-2 me-2 border-end"
+                        [routerLink]="['/admincategory', item.id, 'edit']"><i class="bi-pencil-square"></i></div>
+                        <div class="btn text-danger py-1 px-2 me-2"
+                        (click)="deleteHandler(item.id)"><i class="bi-trash"></i></div>
                       </td>
 
                     </tr>

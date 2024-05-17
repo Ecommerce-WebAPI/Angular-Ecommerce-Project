@@ -5,19 +5,20 @@ import { FooterComponent } from './components/footer/footer.component';
 import {Router, NavigationEnd} from '@angular/router'
 import { RegisterComponent } from './Pages/register/register.component';
 import { LoginComponent } from './Pages/login/login.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-root',
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [NavbarComponent,FooterComponent, RouterOutlet]
+    imports: [NavbarComponent,FooterComponent, RouterOutlet, CommonModule]
 })
 export class AppComponent {
-  title = 'Furniture';
+  title = 'Ecommerce';
 
-  hideNavbar: boolean = true;
-  hideFooter: boolean = true;
+  hideNavbar: boolean = false;
+  hideFooter: boolean = false;
 
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
