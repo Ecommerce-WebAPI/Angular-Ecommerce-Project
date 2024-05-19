@@ -15,6 +15,7 @@ import { AdminProductsComponent } from './Pages/admin-products/admin-products.co
 import { AdminProductFormComponent } from './Pages/admin-products/admin-product-form/admin-product-form.component';
 import { AdminCategoryComponent } from './Pages/admin-category/admin-category.component';
 import { CategoryFormComponent } from './Pages/admin-category/category-form/category-form.component';
+import { CartComponent } from './Pages/cart/cart.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -33,6 +34,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'profile/:id', component: ProfileComponent },
   { path: 'admin', component: AdminDashboardComponent },
+  { path: 'cart', component: CartComponent },
 
   { path: '**', component: NotfoundComponent },
 ];

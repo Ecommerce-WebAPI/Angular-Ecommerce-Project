@@ -56,16 +56,13 @@
           </form>
         </li>
         <li class="position-relative me-3">
-          <a class="nav-link" href="cart.html"><i class="bi-heart"></i></a><small
+          <a class="nav-link" [routerLink]="['/cart']"><i class="bi-heart"></i></a><small
             class="cart-counter position-absolute">+9</small>
         </li>
         <li class="position-relative me-3">
           <a class="nav-link" href="cart.html"><i class="bi-cart"></i></a><small
             class="cart-counter position-absolute">+9</small>
         </li>
-        <!-- <button class="ms-3 btn btn-outline-warning">Login
-          <i class="bi-box-arrow-right"></i></button> -->
-
         @if (isLoggedIn()) {
         <li class="nav-item dropdown mt-1">
           <div class="dropdown">
@@ -91,12 +88,9 @@
         <li class="nav-item dropdown">
           <a class="ms-3 btn btn-outline-warning" [routerLink]="['/login']" [routerLinkActive]="''"
             [routerLinkActiveOptions]="{ exact: true }">Login<i class="bi-box-arrow-right ms-1"></i></a>
-          <!-- <button class="ms-3 btn btn-outline-warning">Login
-            <i class="bi-box-arrow-right"></i></button> -->
         </li>
         }
       </ul>
     </div>
   </div>
 </nav>
-<!-- End Navbar -->

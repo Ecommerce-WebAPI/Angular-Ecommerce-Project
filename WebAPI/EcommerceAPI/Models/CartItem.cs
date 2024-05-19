@@ -13,4 +13,11 @@ public partial class CartItem
     public int ProductId { get; set; }
     public virtual Cart Cart { get; set; }
     public virtual Product Product { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
+    public double Price { get; set; }
+    public string Name { get; set; }
+    public string ImageUrl { get; set; }
+
 }
