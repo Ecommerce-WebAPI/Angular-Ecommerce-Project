@@ -12,24 +12,14 @@ import { CommonModule } from '@angular/common';
     styleUrl: './category-form.component.css',
     imports: [AdminSidebarComponent, CommonModule, ReactiveFormsModule]
 })
+
 export class CategoryFormComponent implements OnInit, OnDestroy {
     categoryForm?: FormGroup;
     categoryId: any;
     category: any;
     subscriber: any;
-    constructor(
-        public categoryService: CategoryService,
-        public router: Router,
-        public activetedRoute: ActivatedRoute,
-        public formBuilder: FormBuilder
-    ) {
-
-    }
-
-
-    get getName() {
-        return this.categoryForm?.get('name');
-    }
+    constructor(public categoryService: CategoryService, public activetedRoute: ActivatedRoute, public formBuilder: FormBuilder, public router: Router) {}
+    get getName() { return this.categoryForm?.get('name'); }
 
     get getDescription() {
         return this.categoryForm?.get('description');
@@ -38,8 +28,6 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
     get getImage() {
         return this.categoryForm?.get('image');
     }
-
-
 
     ngOnDestroy(): void {
         if (this.subscriber) {
@@ -128,7 +116,6 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
                         this.categoryForm?.patchValue({ image: data.secure_url });
                         console.log("image:" + this.getImage);
                         this.categoryForm?.markAsDirty();
-
                     }
                 })
                 .catch((error) => {

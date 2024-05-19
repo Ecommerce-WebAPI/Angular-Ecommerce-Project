@@ -1,1 +1,19 @@
-<p>product-item works!</p>
+<div class="card border-1 border-light border-opacity-25 shadow-sm mb-3 bg-transparent position-relative">
+    <img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}" />
+    <div class="card-body">
+        <h6 class="card-title">{{ product.name }}</h6>
+        <p class="card-text text-muted mb-0">{{ product.categoryName}}</p>
+        <div class="py-2">
+            <i class="bi-star-fill text-warning"></i>
+            <i class="bi-star-fill text-warning"></i>
+            <i class="bi-star-fill text-warning"></i>
+            <i class="bi-star-half text-warning"></i>
+            <i class="bi-star text-warning"></i>
+        </div>
+        <p class="card-text">
+            <strong>{{ product.price | currency }}</strong>
+        </p>
+        <button class="btn btn-secondary rounded-0 w-100 fw-medium px-3">Add to cart <i
+                class="bi-cart fw-bold"></i></button>
+    </div>
+</div>

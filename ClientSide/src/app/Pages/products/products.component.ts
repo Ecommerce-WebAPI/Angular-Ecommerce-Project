@@ -3,11 +3,12 @@ import { IProduct } from '../../interfaces/i-product';
 import { ProductService } from '../../services/product.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { ProductItemComponent } from './product-item/product-item.component';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, ProductItemComponent],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
