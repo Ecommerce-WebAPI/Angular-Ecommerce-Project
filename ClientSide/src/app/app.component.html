@@ -1,10 +1,11 @@
-<div *ngIf="!hideNavbar">
+<ng-container *ngIf="!hideNavbar">
   <br><br><br>
   <app-navbar></app-navbar>
-</div>
+</ng-container>
 
 <router-outlet></router-outlet>
 
-<div *ngIf="!hideFooter">
+<ng-container *ngIf="!hideFooter">
+  <br><br>
   <app-footer></app-footer>
-</div>
+</ng-container>

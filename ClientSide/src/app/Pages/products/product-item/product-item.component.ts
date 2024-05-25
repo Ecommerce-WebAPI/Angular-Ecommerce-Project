@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgClass, NgStyle } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { IProduct } from '../../../interfaces/i-product';
 
@@ -11,4 +11,9 @@ import { IProduct } from '../../../interfaces/i-product';
 })
 export class ProductItemComponent {
   @Input() product: IProduct = {} as IProduct;
+
+  flag: boolean = false;
+  AddToFavorites() {
+    this.flag = !this.flag;
+  }
 }
