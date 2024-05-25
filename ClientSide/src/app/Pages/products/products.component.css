@@ -1,8 +1,7 @@
-/* .card img{
-    height: 200px;
-} */
-
-
+.btn.active {
+  background-color: #dc3545;
+  color: white;
+}
 /* cards */
 .card {
     margin-bottom: 2rem;

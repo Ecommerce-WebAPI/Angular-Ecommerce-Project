@@ -1,26 +1,35 @@
 <section class="section my-5">
   <div class="container">
     <div class="section_category">
-      <p class="section_category_p">categories</p>
+      <p class="section_category_p">Categories</p>
     </div>
     <div class="section_header">
       <h5 class="section_title">Explore all Products</h5>
     </div>
-<div class="filter mt-5">
-  <button class="btn btn-outline-danger me-2 rounded-1 py-2 px-4">All</button>
-  <button class="btn btn-outline-danger me-2 rounded-1 py-2 px-4">Electronics</button>
-  <button class="btn btn-outline-danger me-2 rounded-1 py-2 px-4">Clothes</button>
-  <button class="btn btn-outline-danger me-2 rounded-1 py-2 px-4">Games</button>
-  <button class="btn btn-outline-danger me-2 rounded-1 py-2 px-4">Care</button>
-</div>
+    <div class="filter mt-5">
+      <button
+        class="btn btn-outline-danger me-2 rounded-1 py-2 px-4"
+        [class.active]="activeCategory === 'All'"
+        (click)="filterProducts('All')"
+      >
+        All
+      </button>
+      <button
+        *ngFor="let category of categories"
+        class="btn btn-outline-danger me-2 rounded-1 py-2 px-4"
+        [class.active]="activeCategory === category.name"
+        (click)="filterProducts(category.name)"
+      >
+        {{ category.name }}
+      </button>
+    </div>
     <div class="my-4">
       <div class="row">
-        @for(currentProduct of products; track $index) {
         <app-product-item
+          *ngFor="let currentProduct of filteredProducts; trackBy: trackByProductId"
           class="col-xl-3 col-lg-4 col-md-6 col-sm-12"
           [product]="currentProduct"
-        />
-        }
+        ></app-product-item>
       </div>
     </div>
   </div>
