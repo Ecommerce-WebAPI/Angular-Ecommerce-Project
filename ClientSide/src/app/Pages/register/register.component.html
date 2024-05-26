@@ -1,13 +1,14 @@
-<div class="container h-100">
+<div class="mt-xl-5 mt-sm-0 d-none d-lg-block"><br></div>
+<div class="container mx-auto h-100">
     <div class="row my-3 align-items-center">
-        <div class="col-md-4 ps-lg-5 mb-5 mb-md-0">
+        <div class="col-md-4 ps-lg-5 mb-5 mb-md-0 d-none d-xl-block d-sm-none d-md-none">
             <img src="https://bootstrapious.com/i/snippets/sn-registeration/illustration.svg" alt=""
-                class="img-fluid mb-3 d-none d-md-block">
-            <h1 class="text-center">Create an Account</h1>
+                class="img-fluid mb-3">
+            <h1 class="txt text-center">Create an Account</h1>
         </div>
         <div class="col-md-8 col-lg-7 m-auto bg-white rounded-5 p-5 shadow">
             <form class="row g-3 needs-validation" novalidate [formGroup]="registerForm" (ngSubmit)="register()">
-                <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="col-xl-6 col-sm-12">
                     <div class="input-group has-validation">
                         <span class="input-group-text bg-white shadow-sm border-md py-2" id="inputGroupPrepend"><i
                                 class="bi-person"></i></span>
@@ -24,7 +25,7 @@
                         </div>
                     </ng-container>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="col-xl-6 col-sm-12">
                     <div class="input-group has-validation">
                         <span class="input-group-text bg-white shadow-sm border-md py-2" id="inputGroupPrepend"><i
                                 class="bi-person"></i></span>
@@ -58,14 +59,14 @@
                         </div>
                     </ng-container>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="col-xl-6 col-sm-12">
                     <div class="input-group has-validation">
                         <span class="input-group-text bg-white shadow-sm border-md py-2" id="inputGroupPrepend"><i
                                 class="bi-lock"></i></span>
                         <input [type]="isPasswordVisible ? 'text' : 'password'" formControlName="password"
-                            class="form-control shadow-sm border-md py-2" id="validationCustomPassword"
+                            class="form-control shadow-sm border-md py-2 border-end-white rounded-end-0" id="validationCustomPassword"
                             aria-describedby="inputGroupPrepend" placeholder="password" required>
-                        <span class="input-group-text bg-white shadow-sm border-md border-start-0 py-2"
+                        <span class="input-group-text bg-white shadow-sm border-md border-start-0 py-2 border-end rounded-end"
                             id="inputGroupPrepend" (click)="togglePasswordVisibility()">
                             <i [ngClass]="{
                                                     'bi-eye': isPasswordVisible,
@@ -95,14 +96,14 @@
                         </div>
                     </ng-container>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="col-xl-6 col-sm-12">
                     <div class="input-group has-validation">
                         <span class="input-group-text bg-white shadow-sm border-md py-2" id="inputGroupPrepend"><i
                                 class="bi-lock"></i></span>
                         <input [type]="isConfirmPasswordVisible ? 'text' : 'password'" formControlName="confirmPassword"
-                            class="form-control shadow-sm border-md py-2" id="validationCustomConfirmPassword"
+                            class="form-control shadow-sm border-md py-2 border-end-white rounded-end-0" id="validationCustomConfirmPassword"
                             aria-describedby="inputGroupPrepend" placeholder="confirm password" required>
-                        <span class="input-group-text bg-white shadow-sm border-md border-start-0 py-2"
+                        <span class="input-group-text bg-white shadow-sm border-md border-start-0 py-2 border-end rounded-end"
                             id="inputGroupPrepend" (click)="toggleConfirmPasswordVisibility()">
                             <i [ngClass]="{
                                 'bi-eye': isConfirmPasswordVisible,
@@ -123,8 +124,8 @@
 
                 <div class="col-sm-12">
                     <div class="input-group has-validation"> <select id="addressCode" name="addressCode"
-                            style="max-width: 42px"
-                            class="custom-select form-control bg-white shadow-sm border-md py-2 ps-1 pe-0 h-100 fw-medium text-muted">
+                            style="max-width: 35px"
+                            class="custom-select form-control bg-white shadow-sm border-md py-2 ps-1 pe-0 h-100 fw-medium text-muted  border-end-0 rounded-end-0">
                             <option value="">+20</option>
                             <option value="">+1</option>
                             <option value="">+15</option>
@@ -163,7 +164,7 @@
 
                 <div class="col-12">
                     <div class="form-check">
-                        <input class="form-check-input shadow-sm border-2" type="checkbox" value="" id="invalidCheck"
+                        <input class="form-check-input shadow-sm border-2 border-start" type="checkbox" value="" id="invalidCheck"
                             required>
                         <label class="form-check-label" for="invalidCheck">
                             Agree to terms and conditions
@@ -174,11 +175,11 @@
                     </div>
                 </div>
                 <div class="row mt-3 d-flex align-items-center">
-                    <div class="col-lg-6 col-sm-12">
-                        <input class="btn btn-primary px-5 py-2 rounded-pill" value="Create New Account"
+                    <div class="col-lg-6 col-sm-12 text-lg-end text-sm-center">
+                        <input class="btn btn-primary px-5 py-2 rounded-pill w-100" value="Create New Account"
                             type="submit" />
                     </div>
-                    <div class="col-lg-6 col-sm-12 text-end mt-2 mx-0 px-0">
+                    <div class="col-lg-6 col-sm-12 text-lg-end text-sm-start ms-lg-0 ms-sm-3 mt-2 mx-0 px-0">
                         <p class="text-muted font-weight-bold">Already Registered?
                             <a class="text-muted" [routerLink]="['/login']" [routerLinkActive]="'text-danger'"
                                 [routerLinkActiveOptions]="{ exact: true }">Login</a>

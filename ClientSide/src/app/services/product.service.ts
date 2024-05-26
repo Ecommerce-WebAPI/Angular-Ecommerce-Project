@@ -23,12 +23,16 @@ export class ProductService {
   add(product: any) {
     return this.httpClient.post(this.apiurl,product);
   }
-   
+
   edit(productId: number, product: any) {
     return this.httpClient.put(`${this.apiurl}/${productId}`, product);
   }
 
   delete(productId: number) { 
     return this.httpClient.delete(`${this.apiurl}/${productId}`);
+  }
+
+  getByCategory(categoryName: string): Observable<IProduct[]> {
+    return this.httpClient.get<IProduct[]>(`${this.apiurl}?categoryName=${categoryName}`);
   }
 }

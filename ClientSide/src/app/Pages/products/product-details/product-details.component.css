@@ -1,0 +1,50 @@
+.icon-hover:hover {
+  border-color: #3b71ca !important;
+  background-color: white !important;
+  color: #3b71ca !important;
+}
+
+.icon-hover:hover i {
+  color: #3b71ca !important;
+}
+
+/* product-details.component.css */
+
+.related-products {
+  margin-top: 2rem;
+}
+
+/* .related-products .carousel-inner {
+    display: flex;
+    justify-content: center;
+  } */
+
+/* .related-products .carousel-item {
+    display: flex;
+    justify-content: center;
+  } */
+
+/* .related-products .card {
+    margin: 0.5rem;
+    width: 100%;
+  }
+   */
+.related-products .carousel-control-prev,
+.related-products .carousel-control-next {
+  width: 5%;
+}
+
+.related-products .carousel-control-prev-icon,
+.related-products .carousel-control-next-icon {
+  position: absolute;
+  background-color: #737373;
+  z-index: 1000;
+  padding: 30px 15px;
+  border-radius: 3px;
+}
+.related-products .carousel-control-prev-icon {
+  right: 70px;
+}
+.related-products .carousel-control-next-icon {
+  left: 70px;
+}

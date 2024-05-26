@@ -1,0 +1,33 @@
+<div class="row border-top border-bottom">
+    <div class="row main align-items-center">
+      <div class="col-2">
+        <img class="img-fluid" src="https://i.imgur.com/1GrakTl.jpg" />
+      </div>
+      <div class="col">
+        <div class="row text-muted">Shirt</div>
+        <div class="row">Cotton T-shirt</div>
+      </div>
+      
+      <div class="col counter">
+        <button
+          class="border-0 fs-5 bg-transparent"
+          (click)="decreaseQuantity()"
+        >
+          -
+        </button>
+        <span class="border px-2">{{ quantity }}</span>
+        <button
+          class="border-0 fs-5 bg-transparent"
+          (click)="increaseQuantity()"
+        >
+          +
+        </button>
+      </div>
+      <div class="col">
+        &dollar; 44.00
+        <button class="border-0 bg-transparent fs-4 text-danger fw-semibold py-1 px-2 ms-5">
+          x
+        </button>
+      </div>
+    </div>
+  </div>

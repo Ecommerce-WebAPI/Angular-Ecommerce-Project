@@ -1,0 +1,110 @@
+a {
+  text-decoration: none;
+}
+.product-card {
+  position: relative;
+  box-shadow: 0 2px 9px #efefef;
+  margin: 25px auto;
+  background: #fafafa;
+}
+
+.badge {
+  position: absolute;
+  left: 0;
+  top: 20px;
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 700;
+  background: #999;
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 0;
+}
+
+.product-tumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 250px;
+  padding: 40px;
+  background: #f0f0f0;
+}
+
+.product-tumb img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.product-details {
+  padding: 20px;
+}
+
+.product-catagory {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #aaa;
+  margin-bottom: 10px;
+}
+
+.product-details h5 a {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 10px;
+  color: #363636;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.product-details h4 a:hover {
+  color: var(--primary);
+}
+
+.product-details .stars {
+  margin-bottom: 15px;
+  position: absolute;
+  right:25px;
+}
+.product-details .stars i{
+  padding:1px;
+}
+
+.product-bottom-details {
+  overflow: hidden;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.product-bottom-details div {
+  float: left;
+  width: 50%;
+}
+
+.product-price {
+  font-size: 18px;
+  margin-top: 5px;
+  color: var(--secondry);
+  font-weight: 600;
+}
+ .cart-btn:hover, button:hover{
+background: rgb(201, 6, 6);
+ }
+
+.product-links {
+  position: absolute;
+  right: -65px;
+  top: 20px;
+}
+
+.product-links a {
+  display: inline-block;
+  margin-left: 5px;
+  color: #b1b1b1;
+  transition: 0.3s;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.product-links a:hover {
+  color: var(--secondry);
+}

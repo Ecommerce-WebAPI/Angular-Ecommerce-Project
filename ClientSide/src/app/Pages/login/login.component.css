@@ -1,26 +1,16 @@
-/* In your component's CSS file or global CSS file */
-.swal2-popup {
-  font-size: 16px; /* Example font size */
+input{
+  border-top-left-radius:0;
+  border-bottom-left-radius:0;
+  border-left:1px solid white;
+}
+#inputGroupPrepend{
+  border-top-right-radius:0;
+  border-bottom-right-radius:0;
+  border-right:white;
 }
 
-.swal2-title {
-  color: #333; /* Example title color */
+@media only screen and (max-width:600px){
+  .container{
+      padding: 0 30px;
+  }
 }
-
-.swal2-content {
-  color: #666; /* Example content color */
-}
-
-.swal2-icon {
-  color: #007bff; /* Example icon color */
-}
-
-.swal2-success .swal2-icon i {
-  background-color: #28a745; /* Example success icon color */
-}
-
-.swal2-error .swal2-icon i {
-  background-color: #dc3545; /* Example error icon color */
-}
-
-/* Customize other properties as needed */

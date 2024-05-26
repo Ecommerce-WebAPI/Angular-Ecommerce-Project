@@ -1,6 +1,7 @@
 .footer-section {
-  padding: 15px 0;
+  padding: 25px 0;
   background: #ffffff;
+  border-top: #ececec 1px solid;
 }
 .footer-section .relative {
   position: relative;

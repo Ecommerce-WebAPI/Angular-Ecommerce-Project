@@ -1,1 +1,146 @@
-<p>product-details works!</p>
+<section class="pt-5 mt-4">
+  <div class="container">
+    <div class="row gx-5">
+      <aside class="col-lg-6">
+        <div class="border rounded-4 mb-3 d-flex justify-content-center">
+          <div
+            data-fslightbox="mygalley"
+            class="rounded-4"
+            target="_blank"
+            data-type="image"
+          >
+            <img
+              style="max-width: 100%; height: 75vh; margin: auto;"
+              class="rounded-4 fit"
+              src="{{product?.image}}"
+            />
+          </div>
+        </div>
+      </aside>
+      <main class="col-lg-6 lh-lg">
+        <div class="ps-lg-3">
+          <h3 class="title text-dark mt-5">
+            {{product?.name}}
+          </h3>
+          <h6 class="text-muted">_ {{product?.categoryName}} _</h6>
+          <div class="d-flex flex-row my-3">
+            <div class="text-warning mb-1 me-2">
+              <i class="bi-star-fill"></i>
+              <i class="bi-star-fill"></i>
+              <i class="bi-star-fill"></i>
+              <i class="bi-star-fill"></i>
+              <i class="bi-star-half"></i>
+              <span class="ms-1">
+                4.5
+              </span>
+            </div>
+            <span class="text-muted"
+              ><i class="fas fa-shopping-basket fa-sm mx-1"></i>154 items</span
+            >
+            <span class="text-success ms-2">In stock</span>
+          </div>
+
+          <div class="mb-3">
+            <span class="h4">${{product?.price}}</span>
+          </div>
+
+          <p class="lh-lg">{{product?.description}}</p>
+
+          <hr class="text-muted text-opacity-25" />
+
+          <div class="row mb-3">
+            <div class="col-md-4 col-6 mb-3">
+              <label class="mb-2 d-block">Quantity</label>
+              <div class="input-group mb-3" style="width: 170px;">
+                <button
+                  class="btn btn-white border border-secondary px-3"
+                  type="button"
+                  (click)="decrementQuantity()"
+                >
+                  <i class=""> - </i>
+                </button>
+                <input
+                  type="text"
+                  class="form-control text-center border border-secondary"
+                  [(ngModel)]="quantity"
+                  value="1"
+                  min="1"
+                  aria-label="Example text with button addon"
+                  aria-describedby="button-addon1"
+                />
+                <button
+                  class="btn btn-white border border-secondary px-3"
+                  type="button"
+                  (click)="incrementQuantity()"
+                >
+                  <i class="bi-plus"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <a href="#" class="btn btn-secondary me-2 py-2 px-4 shadow-0">
+            Buy now
+          </a>
+          <a href="#" class="btn btn-primary me-2 py-2 px-4 shadow-0">
+            <i class="me-1 bi-basket"></i> Add to cart
+          </a>
+          <a
+            href="#"
+            class="btn btn-light border border-secondary py-2 px-4 icon-hover"
+          >
+            <i class="me-1 bi-heart fa-lg"></i> Save
+          </a>
+        </div>
+      </main>
+    </div>
+  </div>
+</section>
+
+<!-- Related Products Slider -->
+<section class="related-products pt-2">
+  <div class="related-products mt-5 container">
+    <div class="section_category">
+      <p class="section_category_p">Related Products</p>
+    </div>
+    <div
+      id="relatedProductsCarousel"
+      class="carousel slide position-relative"
+      data-bs-ride="carousel"
+    >
+      <div class="carousel-inner">
+        <div
+          class="carousel-item"
+          *ngFor="let product of relatedProducts; let i = index"
+          [class.active]="i === 0"
+        >
+          <div class="row">
+            <app-product-item
+              *ngFor="let product of relatedProducts.slice(i * 4, i * 4 + 4)"
+              class="col-xl-3 col-lg-4 col-md-6 col-sm-12"
+              [product]="product"
+            ></app-product-item>
+          </div>
+        </div>
+      </div>
+      <button
+        class="carousel-control-prev d-block d-sm-none"
+        type="button"
+        data-bs-target="#relatedProductsCarousel"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next d-block d-sm-none"
+        type="button"
+        data-bs-target="#relatedProductsCarousel"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+</section>

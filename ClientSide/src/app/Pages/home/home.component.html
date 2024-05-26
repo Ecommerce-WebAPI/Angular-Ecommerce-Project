@@ -43,7 +43,6 @@
 </div>
 
 <!-- Categories Section -->
-
 <app-categories></app-categories>
 
 <section class="section my-5">
@@ -52,7 +51,7 @@
       <p class="section_category_p">categories</p>
     </div>
     <div class="section_header">
-      <h5 class="section_title">Browse by Category</h5>
+      <h5 class="section_title fs-3">Browse by Category</h5>
     </div>
     <div class="categories">
       <div class="category">
@@ -89,12 +88,54 @@
   </div>
 </section>
 
+<!-- Related Products Slider -->
+<section class="related-products pt-2">
+  <div class="related-products mt-5 container">
+    <div class="section_category">
+      <p class="section_category_p">Related Products</p>
+    </div>
+    <div
+      id="relatedProductsCarousel"
+      class="carousel slide position-relative"
+      data-bs-ride="carousel"
+    >
+      <div class="carousel-inner">
+        <div
+          class="carousel-item"
+          *ngFor="let product of relatedProducts; let i = index"
+          [class.active]="i === 0"
+        >
+          <div class="row">
+            <app-product-item
+              *ngFor="let product of relatedProducts.slice(i * 4, i * 4 + 4)"
+              class="col-xl-3 col-lg-4 col-md-6 col-sm-12"
+              [product]="product"
+            ></app-product-item>
+          </div>
+        </div>
+      </div>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#relatedProductsCarousel"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#relatedProductsCarousel"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+</section>
 
-<!-- End Categories Section -->
-
-<!-- Products Section -->
-
-<!-- End Products Section -->
 
 <!-- Why Choose Us Section -->
 <div class="why-choose-section section_category">
