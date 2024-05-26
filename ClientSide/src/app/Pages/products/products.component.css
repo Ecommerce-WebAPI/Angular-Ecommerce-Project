@@ -2,6 +2,15 @@
   background-color: #dc3545;
   color: white;
 }
+
+ul li a{
+  color: #000;
+  padding: 8px 15px;
+}
+.active {
+  background-color: #666;
+}
+
 /* cards */
 .card {
     margin-bottom: 2rem;

@@ -46,7 +46,9 @@
                     'bi-heart-fill text-danger': flag,
                     'bi-heart': !flag
                   }" class="bi-heart"></i></button>
-                <button class="bg-light me-2 py-1 px-2 rounded-circle border-0"><i class="bi-eye"></i></button>
+                <button class="bg-light me-2 py-1 px-2 rounded-circle border-0"
+                [routerLink]="['/products', product.id]"
+                ><i class="bi-eye"></i></button>
             </div>
         </div>
     </div>

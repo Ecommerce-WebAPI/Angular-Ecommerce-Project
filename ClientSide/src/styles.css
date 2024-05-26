@@ -77,17 +77,17 @@ a.more {
   border-color: var(--primary);
 }
 .btn.btn-primary:hover {
-  background: #2f2f2f;
+  background: #3e3e3e;
   border-color: #314d43;
 }
 .btn.btn-secondary {
-  color: #2f2f2f;
+  color: #fff;
   background: var(--secondry);
   border-color: var(--secondry);
 }
 .btn.btn-secondary:hover {
-  background: #f8b810;
-  border-color: #f8b810;
+  background: #c21e1e;
+  border-color: #c21e1e;
 }
 .btn.btn-white-outline {
   background: transparent;

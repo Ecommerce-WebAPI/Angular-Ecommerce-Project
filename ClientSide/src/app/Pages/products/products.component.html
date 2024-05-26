@@ -1,7 +1,7 @@
 <section class="section my-5">
   <div class="container">
     <div class="section_category">
-      <p class="section_category_p">Categories</p>
+      <p class="section_category_p">Products</p>
     </div>
     <div class="section_header">
       <h5 class="section_title">Explore all Products</h5>
@@ -26,11 +26,29 @@
     <div class="my-4">
       <div class="row">
         <app-product-item
-          *ngFor="let currentProduct of filteredProducts; trackBy: trackByProductId"
+          *ngFor="let currentProduct of paginatedProducts; trackBy: trackByProductId"
           class="col-xl-3 col-lg-4 col-md-6 col-sm-12"
           [product]="currentProduct"
         ></app-product-item>
       </div>
     </div>
+    <div aria-label="Page navigation mx-auto">
+      <ul class="pagination text-center">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a class="page-link" (click)="changePage(currentPage - 1)" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item" *ngFor="let page of totalPagesArray" [ngClass]="{'active': currentPage === page}">
+          <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a class="page-link" (click)="changePage(currentPage + 1)" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    
   </div>
 </section>
