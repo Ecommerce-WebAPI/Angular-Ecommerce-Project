@@ -19,7 +19,7 @@
 </div> -->
 
 <div class="product-card">
-    <div class="badge">Hot</div>
+    <!-- <div class="badge">Hot</div> -->
     <div class="product-tumb">
         <img src="{{product.image}}" alt="{{product.name}}">
     </div>
@@ -41,12 +41,12 @@
             <button class="cart-btn btn btn-secondary btn-hover text-white right-0 w-50 rounded-0 p-2">Add to cart</button>
             <div class="product-links">
                 <button (click)="AddToFavorites()"                
-                class="bg-light me-2 py-1 px-2 rounded-circle border-0"><i 
+                class="bg-light me-2 py-1 px-2 fs-5 rounded-circle border-0"><i 
                 [ngClass]="{
                     'bi-heart-fill text-danger': flag,
                     'bi-heart': !flag
                   }" class="bi-heart"></i></button>
-                <button class="bg-light me-2 py-1 px-2 rounded-circle border-0"
+                <button class="bg-light me-2 py-1 px-2 fs-5 rounded-circle border-0"
                 [routerLink]="['/products', product.id]"
                 ><i class="bi-eye"></i></button>
             </div>
