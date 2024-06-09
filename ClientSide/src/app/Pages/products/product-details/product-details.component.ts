@@ -41,11 +41,7 @@ export class ProductDetailsComponent implements OnInit {
   };
 
   
-  constructor(
-    public activatedRoute: ActivatedRoute,
-    private productService: ProductService,
-    public router: Router
-  ) {}
+  constructor(public activatedRoute: ActivatedRoute, private productService: ProductService, public router: Router) {}
 
   ngOnInit(): void {
     this.productId = this.activatedRoute.snapshot.params['id'];

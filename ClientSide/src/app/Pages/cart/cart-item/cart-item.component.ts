@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ICartItem } from '../../../interfaces/i-cart-item';
 
 @Component({
   selector: 'app-cart-item',
@@ -8,16 +9,21 @@ import { Component } from '@angular/core';
   styleUrl: './cart-item.component.css'
 })
 export class CartItemComponent {
-  
-  quantity: number = 1; 
+  @Input() item: ICartItem = {} as ICartItem;
+  @Output() quantityChange = new EventEmitter<number>();
+  @Output() remove = new EventEmitter<void>();
 
   decreaseQuantity() {
-    if (this.quantity > 1) {
-      this.quantity--;
+    if (this.item.quantity > 1) {
+      this.quantityChange.emit(this.item.quantity - 1);
     }
   }
 
   increaseQuantity() {
-    this.quantity++;
+    this.quantityChange.emit(this.item.quantity + 1);
+  }
+
+  removeItem() {
+    this.remove.emit();
   }
 }

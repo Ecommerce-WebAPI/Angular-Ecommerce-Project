@@ -1,28 +1,35 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { ICartItem } from './../interfaces/i-cart-item';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
   apiurl: string = environment.apiUrl;
+
   constructor(private http: HttpClient) { }
 
-  getCart() {
-    return this.http.get(`${this.apiurl}Cart`);
+  getCart(): Observable<ICartItem[]> {
+    return this.http.get<ICartItem[]>(`${this.apiurl}Cart`);
   }
 
-  addToCart(productId: number) {
-    return this.http.post(`${this.apiurl}CartItem/${productId}`, {});
+  addToCart(productId: number): Observable<void> {
+    return this.http.post<void>(`${this.apiurl}CartItem/${productId}`, {});
   }
 
-  removeFromCart(productId: number) {
-    return this.http.delete(`${this.apiurl}CartItem/${productId}`);
+  removeFromCart(productId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiurl}CartItem/${productId}`);
   }
 
-  clearCart() {
-    return this.http.delete(`${this.apiurl}cart`);
+  updateCartItem(productId: number, quantity: number): Observable<void> {
+    return this.http.put<void>(`${this.apiurl}CartItem/${productId}`, { quantity });
+  }
+
+  clearCart(): Observable<void> {
+    return this.http.delete<void>(`${this.apiurl}Cart`);
   }
 
   // checkout() {
