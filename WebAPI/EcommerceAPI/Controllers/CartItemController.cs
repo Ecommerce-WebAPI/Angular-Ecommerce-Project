@@ -154,6 +154,53 @@ namespace EcommerceAPI.Controllers
             await unitOfWork.Save();
             return Ok(cartItem);
         }
+
+        /// <summary>
+        /// Adds a product to the cart.
+        /// </summary>
+        /// <param name="productId">The ID of the product to add to the cart.</param>
+        /// <returns>The added cart item.</returns>
+        [HttpPost("{productId}")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CartItem))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddToCart(int productId)
+        {
+            try
+            {
+                var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
+                var cart = await unitOfWork.CartRepository.GetCartByUserId(userId);
+                if (cart == null)
+                {
+                    cart = new Cart { UserId = userId, Timestamp = DateTime.UtcNow, TotalPrice = 0 };
+                    await unitOfWork.CartRepository.Add(cart);
+                }
+
+                var product = await unitOfWork.ProductGenericRepository.GetById(productId);
+                if (product == null)
+                {
+                    return BadRequest("Invalid product ID");
+                }
+
+                var cartItem = new CartItem
+                {
+                    Quantity = 1,
+                    CartId = cart.Id,
+                    Name = product.Name,
+                    ProductId = productId,
+                    Price = product.Price,
+                    ImageUrl = product.Image
+                };
+
+                await unitOfWork.CartItemGenericRepository.Add(cartItem);
+                await unitOfWork.Save();
+
+                return CreatedAtAction(nameof(GetCartItemByID), new { id = cartItem.Id }, cartItem);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }
-    

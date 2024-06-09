@@ -18,8 +18,8 @@
     </div>
 </div> -->
 
-<div class="product-card">
-    <!-- <div class="badge">Hot</div> -->
+<!-- ///////////Last Working/////////////////  -->
+<!-- <div class="product-card">
     <div class="product-tumb">
         <img src="{{product.image}}" alt="{{product.name}}">
     </div>
@@ -35,7 +35,6 @@
         </span>
     </div>
         
-        <!-- <p>Lorem ipsum dolor sit amet, consectetur...</p> -->
         <div class="product-bottom-details">
             <div class="product-price">${{product.price}}</div>
             <button class="cart-btn btn btn-secondary btn-hover text-white right-0 w-50 rounded-0 p-2">Add to cart</button>
@@ -49,6 +48,39 @@
                 <button class="bg-light me-2 py-1 px-2 fs-5 rounded-circle border-0"
                 [routerLink]="['/products', product.id]"
                 ><i class="bi-eye"></i></button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="product-card">
+    <div class="product-tumb">
+        <img src="{{product.image}}" alt="{{product.name}}">
+    </div>
+    <div class="product-details">
+        <h5><a href="">{{product.name}}</a></h5>
+        <div class="product-catagory">{{product.categoryName}}
+            <span class="stars text-warning">
+                <i class="bi-star-fill"></i>
+                <i class="bi-star-fill"></i>
+                <i class="bi-star-fill"></i>
+                <i class="bi-star-half"></i>
+                <i class="bi-star"></i>
+            </span>
+        </div>
+
+        <div class="product-bottom-details">
+            <div class="product-price">${{product.price}}</div>
+            <button (click)="addToCart()"
+                class="cart-btn btn btn-secondary btn-hover text-white right-0 w-50 rounded-0 p-2">Add to cart</button>
+            <div class="product-links">
+                <button (click)="addToFavorites()" class="bg-light me-2 py-1 px-2 fs-5 rounded-circle border-0"><i
+                        [ngClass]="{
+                    'bi-heart-fill text-danger': flag,
+                    'bi-heart': !flag
+                  }" class="bi-heart"></i></button>
+                <button class="bg-light me-2 py-1 px-2 fs-5 rounded-circle border-0"
+                    [routerLink]="['/products', product.id]"><i class="bi-eye"></i></button>
             </div>
         </div>
     </div>
