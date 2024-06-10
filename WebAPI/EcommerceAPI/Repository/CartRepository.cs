@@ -13,7 +13,7 @@ namespace EcommerceAPI.Repository
 
         public async Task<Cart?> GetCartByUserId(string uid)
         {
-            var cart = await db.Carts.Include(c => c.CartItems).FirstOrDefaultAsync(c => c.UserId == uid);
+            var cart = await db.Carts.Include(c => c.CartItems).SingleOrDefaultAsync(c => c.UserId == uid);
             return cart;
         }
 

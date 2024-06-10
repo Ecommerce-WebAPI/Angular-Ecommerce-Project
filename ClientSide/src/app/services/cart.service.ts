@@ -1,3 +1,4 @@
+/*
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
@@ -95,4 +96,47 @@ export class CartService {
   // updateDeliveryMethod(id: number, deliveryMethodId: number) {
   //   return this.http.put(`${this.apiurl}orders/${id}/delivery`, { deliveryMethodId });
   // }
+}
+*/
+import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment.development';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { ICartItem } from './../interfaces/i-cart-item';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CartService {
+  apiurl: string = environment.apiUrl;
+
+  constructor(private http: HttpClient) { }
+
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+  }
+
+  getCart(): Observable<ICartItem[]> {
+    return this.http.get<ICartItem[]>(`${this.apiurl}Cart`, { headers: this.getHeaders() });
+  }
+
+  addToCart(productId: number): Observable<void> {
+    return this.http.post<void>(`${this.apiurl}Cart/${productId}`, {}, { headers: this.getHeaders() });
+  }
+
+  removeFromCart(productId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiurl}Cart/${productId}`, { headers: this.getHeaders() });
+  }
+
+  updateCartItem(productId: number, quantity: number): Observable<void> {
+    return this.http.put<void>(`${this.apiurl}Cart/${productId}`, { quantity }, { headers: this.getHeaders() });
+  }
+
+  clearCart(): Observable<void> {
+    return this.http.delete<void>(`${this.apiurl}Cart`, { headers: this.getHeaders() });
+  }
 }

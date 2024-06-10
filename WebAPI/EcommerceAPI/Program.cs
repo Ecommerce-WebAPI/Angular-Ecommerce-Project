@@ -108,7 +108,7 @@ builder.Services.AddAuthentication(options =>
     //When a request is received without authentication credentials or with invalid credentials, ASP.NET Core needs to send a challenge back to the client, indicating that authentication is required.
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    // options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 })
        .AddJwtBearer(o => {
            o.SaveToken = true;
@@ -124,7 +124,7 @@ builder.Services.AddAuthentication(options =>
                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSettings.GetSection("securityKey").Value!))
            };
        });
-#endregion S
+#endregion
 
 var app = builder.Build();
 

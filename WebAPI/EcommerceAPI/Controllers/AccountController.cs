@@ -157,12 +157,12 @@ namespace EcommerceAPI.Controllers
                 new Claim (JwtRegisteredClaimNames.FamilyName, applicationUser.LastName??""),
                 new Claim (JwtRegisteredClaimNames.Iss, configuration.GetSection("JwtSettings").GetSection("ValidIssuer").Value!??""),
                 new Claim (JwtRegisteredClaimNames.Aud, configuration.GetSection("JwtSettings").GetSection("ValidAudience").Value!??""),
-                new Claim("address", applicationUser.Address ?? ""),
+                new Claim ("address", applicationUser.Address ?? ""),
                 new Claim ("phoneNumber", applicationUser.PhoneNumber??""),
                 new Claim ("profileImage", applicationUser.ProfileImage??""),
-                new Claim("phoneNumberConfirmed", applicationUser.PhoneNumberConfirmed.ToString()??""),
-                new Claim("twoFactorEnabled", applicationUser.TwoFactorEnabled.ToString()??""),
-                new Claim("accessFailedCount", applicationUser.AccessFailedCount.ToString()??""),
+                new Claim ("phoneNumberConfirmed", applicationUser.PhoneNumberConfirmed.ToString()??""),
+                new Claim ("twoFactorEnabled", applicationUser.TwoFactorEnabled.ToString()??""),
+                new Claim ("accessFailedCount", applicationUser.AccessFailedCount.ToString()??""),
             ];
 
             var roles = userManager.GetRolesAsync(applicationUser).Result;
@@ -181,6 +181,8 @@ namespace EcommerceAPI.Controllers
                 // payload: extra data as [expire date, claims, audience, issure]
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddDays(1),
+                // Issuer = (configuration.GetSection("JwtSettings").GetSection("ValidIssuer").Value! ?? ""),
+                // Audience = (configuration.GetSection("JwtSettings").GetSection("ValidAudience").Value! ?? "")
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();

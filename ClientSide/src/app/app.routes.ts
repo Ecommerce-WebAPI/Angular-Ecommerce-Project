@@ -32,7 +32,8 @@ export const routes: Routes = [
   { path: 'forgetpass', component: ForgetPasswordComponent },
   { path: 'resetpass', component: ResetPasswordComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'profile/:id', component: ProfileComponent },
+  //{ path: 'profile/:id', component: ProfileComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: 'admin', component: AdminDashboardComponent },
   { path: 'cart', component: CartComponent },
 
