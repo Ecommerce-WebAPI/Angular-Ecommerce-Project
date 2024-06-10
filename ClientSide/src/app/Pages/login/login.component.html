@@ -28,7 +28,8 @@
                         <input [type]="isPasswordVisible ? 'text' : 'password'" formControlName="password"
                             class="form-control shadow-sm border-md py-2" id="validationCustomPassword"
                             aria-describedby="inputGroupPrepend" placeholder="password" required>
-                        <span class="input-group-text bg-white shadow-sm border-md border-start-0 py-2 border-end rounded-end"
+                        <span
+                            class="input-group-text bg-white shadow-sm border-md border-start-0 py-2 border-end rounded-end"
                             id="inputGroupPrepend" (click)="togglePasswordVisibility()">
                             <i [ngClass]="{
                                 'bi-eye': isPasswordVisible,
@@ -44,9 +45,10 @@
                 <div class="col-12">
                     <div class="form-check">
                         <input class="form-check-input shadow-sm border-2" type="checkbox" value=""
-                            formControlName="remember" id="invalidCheck" required>
+                            formControlName="rememberMe" id="invalidCheck" required>
+
                         <label class="form-check-label" for="invalidCheck">
-                            Remamber me.
+                            Remember Me.
                         </label>
                     </div>
                 </div>

@@ -107,10 +107,10 @@ export class RegisterComponent implements OnInit{
     this.authenticationService.register(registerRequest).subscribe({
       next: (response) => {
         const loginCredentials: ILoginRequest = {
-          email: this.registerForm.value.email as string,
-          password: this.registerForm.value.password as string,
+          email: this.registerForm.value.email! as string,
+          password: this.registerForm.value.password! as string,
+          rememberMe: false
         };
-        //this.authenticationService.login(loginCredentials);
         this.router.navigate(['/login']);
         console.log(response);
       },

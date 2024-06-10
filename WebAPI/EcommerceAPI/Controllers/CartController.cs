@@ -25,35 +25,23 @@ namespace EcommerceAPI.Controllers
             this.userManager = userManager;
         }
 
-
-        /////////////////////////////////////////////////////////////////////
-
         /// <summary>
         /// add to cart
         /// </summary>
         /// <param name="productId"></param>
         /// <returns></returns>
-        //[ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CartItem))]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CartItem))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost("{productId}")]
         public async Task<IActionResult> AddToCart(int productId)
         {
             try
             {
-                //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                //if (userId == null)
-                //{
-                //    return BadRequest("User ID is missing");
-                //}
-
-                ///////////////////////
-
-                // var uid = "6c8e9052-41dd-4aac-8754-3a870537729b";
                 var user = await userManager.GetUserAsync(User);
                 if (user == null)
                 {
-                    return Unauthorized(); // User not found or not authenticated
+                    return Unauthorized();
                 }
 
                 var cart = await unitOfWork.CartRepository.GetCartByUserId(user.Id);
@@ -89,8 +77,6 @@ namespace EcommerceAPI.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-
-        /////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// Retrieves all categories.

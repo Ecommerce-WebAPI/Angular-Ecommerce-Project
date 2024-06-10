@@ -131,7 +131,8 @@ namespace EcommerceAPI.Controllers
                     });
                 }
 
-                var token = GenerateToken(user);
+                //var token = GenerateToken(user);
+                var token = GenerateToken(user, loginDTO.RememberMe);
 
                 return Ok(new AuthResponseDTO
                 {
@@ -148,7 +149,7 @@ namespace EcommerceAPI.Controllers
         }
 
         #region helper function
-        private string GenerateToken(ApplicationUser applicationUser)
+        private string GenerateToken(ApplicationUser applicationUser, bool? rememberMe)
         {
             List<Claim> claims = [
                 new Claim (JwtRegisteredClaimNames.NameId, applicationUser.Id??""),
@@ -171,6 +172,16 @@ namespace EcommerceAPI.Controllers
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
+            DateTime expiration;
+            if (rememberMe == true)
+            {
+                expiration = DateTime.UtcNow.AddDays(7);
+            }
+            else
+            {
+                expiration = DateTime.UtcNow.AddDays(1);
+            }
+
             // signature
             var key = Encoding.ASCII.GetBytes(configuration.GetSection("JwtSettings").GetSection("securityKey").Value!);
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -180,9 +191,9 @@ namespace EcommerceAPI.Controllers
 
                 // payload: extra data as [expire date, claims, audience, issure]
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(1),
-                // Issuer = (configuration.GetSection("JwtSettings").GetSection("ValidIssuer").Value! ?? ""),
-                // Audience = (configuration.GetSection("JwtSettings").GetSection("ValidAudience").Value! ?? "")
+                Expires = expiration,
+                Issuer = (configuration.GetSection("JwtSettings").GetSection("ValidIssuer").Value! ?? ""),
+                Audience = (configuration.GetSection("JwtSettings").GetSection("ValidAudience").Value! ?? "")
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
