@@ -63,7 +63,7 @@ builder.Services.AddSwaggerGen(options => {
 });
 
 builder.Services.AddDbContext<EcommerceContext>(options => {
-        options.UseLazyLoadingProxies().UseSqlServer(
+        options.UseSqlServer(
             builder.Configuration.GetConnectionString("Ecom")
         );
         options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);

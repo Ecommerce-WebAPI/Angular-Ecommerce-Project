@@ -4,9 +4,8 @@ import { ICartItem } from '../../../interfaces/i-cart-item';
 @Component({
   selector: 'app-cart-item',
   standalone: true,
-  imports: [],
   templateUrl: './cart-item.component.html',
-  styleUrl: './cart-item.component.css'
+  styleUrls: ['./cart-item.component.css']
 })
 export class CartItemComponent {
   @Input() item: ICartItem = {} as ICartItem;
@@ -20,6 +19,7 @@ export class CartItemComponent {
   }
 
   increaseQuantity() {
+    console.log(`my item is ${JSON.stringify(this.item)}`);
     this.quantityChange.emit(this.item.quantity + 1);
   }
 

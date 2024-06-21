@@ -100,6 +100,30 @@ namespace EcommerceAPI.Controllers
         }
 
         /// <summary>
+        /// get cart items using cart id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("GetUserCartItemsByCartID/{id:int}")]
+        public async Task<IActionResult> GetUserCartItemsByCartID(int id)
+        {
+            try
+            {
+                var cartItems = await unitOfWork.CartRepository.GetUserCartItemsByCartId(id);
+                if (cartItems == null)
+                {
+                    return BadRequest("No such items in this cart id");
+                }
+                return Ok(cartItems);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error !!");
+            }
+        }
+
+        
+        /// <summary>
         /// Retrieves a cart by ID.
         /// </summary>
         /// <param name="id">The ID of the cart to retrieve.</param>
@@ -125,7 +149,8 @@ namespace EcommerceAPI.Controllers
                 return StatusCode(500, "Internal server error !!");
             }
         }
-
+       
+        
         // PUT: api/Cart/5
         /// <summary>
         /// Updates a cart.

@@ -5,6 +5,7 @@ namespace EcommerceAPI.Repository
     public interface ICartRepository<T>
     {
         public Task<Cart?> GetCartByUserId(string uid);
+        public Task<List<CartItem>?> GetUserCartItemsByCartId(int cartId);
         public Task<Cart?> GetCartById(int id);
         public Task<Cart> Add(Cart cart);
         public Task Delete(Cart cart);

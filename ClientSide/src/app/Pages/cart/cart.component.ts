@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { CartItemComponent } from "./cart-item/cart-item.component";
+import { CommonModule } from '@angular/common';
+import { CartItemComponent } from './cart-item/cart-item.component';
 import { ICartItem } from '../../interfaces/i-cart-item';
 import { CartService } from '../../services/cart.service';
 
 @Component({
-    selector: 'app-cart',
-    standalone: true,
-    templateUrl: './cart.component.html',
-    styleUrl: './cart.component.css',
-    imports: [CartItemComponent]
+  selector: 'app-cart',
+  standalone: true,
+  templateUrl: './cart.component.html',
+  styleUrls: ['./cart.component.css'],
+  imports: [CommonModule, CartItemComponent]
 })
 export class CartComponent implements OnInit {
-  
-  quantity: number = 1; 
+  quantity: number = 1;
   totalPrice: number = 0;
   totalItems: number = 0;
   cartItems: ICartItem[] = [];
@@ -20,14 +20,19 @@ export class CartComponent implements OnInit {
   constructor(private cartService: CartService) { }
 
   ngOnInit() {
-    this.loadCart();
-  }
-
-  loadCart() {
-    this.cartService.getCart().subscribe(items => {
+    console.log("hello 1");
+    this.cartService.fetchCart().subscribe(items => {
       this.cartItems = items;
+      console.log(`cartItems 1 = ${JSON.stringify(this.cartItems)}`);
       this.calculateTotals();
     });
+    console.log("hello 2");
+    this.cartService.cartItems$.subscribe(items => {
+      this.cartItems = items;
+      console.log(`this.cartItems = ${JSON.stringify(this.cartItems)}`);
+      this.calculateTotals();
+    });
+    console.log("hello 3");
   }
 
   calculateTotals() {
@@ -37,24 +42,14 @@ export class CartComponent implements OnInit {
 
   updateQuantity(item: ICartItem, quantity: number) {
     if (quantity < 1) return;
-    item.quantity = quantity;
-    this.cartService.updateCartItem(item.productId, item.quantity).subscribe(() => {
-      this.calculateTotals();
-    });
+    this.cartService.updateCartItem(item.productId, quantity).subscribe();
   }
 
   removeItem(productId: number) {
-    this.cartService.removeFromCart(productId).subscribe(() => {
-      this.cartItems = this.cartItems.filter(item => item.productId !== productId);
-      this.calculateTotals();
-    });
+    this.cartService.removeFromCart(productId).subscribe();
   }
 
   clearCart() {
-    this.cartService.clearCart().subscribe(() => {
-      this.cartItems = [];
-      this.totalPrice = 0;
-      this.totalItems = 0;
-    });
+    this.cartService.clearCart().subscribe();
   }
 }
