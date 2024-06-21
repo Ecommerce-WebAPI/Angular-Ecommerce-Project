@@ -4,6 +4,7 @@ using EcommerceAPI.Models;
 using EcommerceAPI.Unit_Of_Work;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace EcommerceAPI.Controllers
 {
@@ -43,6 +44,8 @@ namespace EcommerceAPI.Controllers
             }
         }
 
+
+
         /// <summary>
         /// Retrieves a cartItem by ID.
         /// </summary>
@@ -70,41 +73,61 @@ namespace EcommerceAPI.Controllers
             }
         }
 
-        // PUT: api/CartItem/5
+
+
         /// <summary>
         /// Updates a cartItem.
         /// </summary>
-        /// <param name="id">The ID of the cartItem to update.</param>
+        /// <param name="productId">The product ID of the cartItem to update.</param>
         /// <param name="cartItem">The updated cartItem object.</param>
         /// <returns>The updated cartItem object.</returns>
-        [HttpPut("{id}")]
+        [HttpPut("{productId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CartItem))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PutCartItem(int id, CartItem cartItem)
+        public async Task<IActionResult> PutCartItem(int productId, CartItem cartItem)
         {
             if (cartItem == null)
             {
-                return BadRequest("Please provide student data");
+                return BadRequest("Please provide item data");
             }
-            CartItem existedCartItem = await unitOfWork.CartItemGenericRepository.GetById(id);
-            if (existedCartItem != null && existedCartItem.Id != cartItem.Id)
+
+            // Retrieve the user ID from the authenticated user context
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
             {
-                return NotFound($"There is a cartItem with this ID : {id}, Please, Change it");
+                return BadRequest("User ID is missing");
+            }
+
+            // Ensure the IDs match
+            if (productId != cartItem.ProductId)
+            {
+                return BadRequest("Product ID in the URL does not match the Product ID in the cart item");
+            }
+
+            CartItem existedCartItem = await unitOfWork.CartRepository.GetCartItemByProductIdAndUserId(productId, userId);
+            if (existedCartItem == null)
+            {
+                return NotFound($"No cart item found with Product ID: {productId} and User ID: {userId}");
             }
 
             try
             {
-                unitOfWork.CartItemGenericRepository.Update(id, cartItem);
+                existedCartItem.Quantity = cartItem.Quantity;
+                existedCartItem.Price = cartItem.Price;
+
+                await unitOfWork.CartRepository.UpdateCartItem(existedCartItem);
+                await unitOfWork.CartRepository.SaveCartItem();
                 await unitOfWork.Save();
-                return Ok(cartItem);
+                return Ok(existedCartItem);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error !!");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
         /// <summary>
         /// Adds a new cartItem.
@@ -134,26 +157,44 @@ namespace EcommerceAPI.Controllers
             }
         }
 
+
+
         /// <summary>
-        /// Deletes a cartItem by ID.
+        /// Deletes a cartItem by product ID.
         /// </summary>
-        /// <param name="id">The ID of the cartItem to delete.</param>
+        /// <param name="productId">The product ID of the cartItem to delete.</param>
         /// <returns>The deleted cartItem object.</returns>
-        [HttpDelete("{id}")]
+        [HttpDelete("{productId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CartItem))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteCartItem(int id)
+        public async Task<IActionResult> DeleteCartItem(int productId)
         {
-            CartItem cartItem = await unitOfWork.CartItemGenericRepository.GetById(id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("User ID is missing");
+            }
+
+            CartItem cartItem = await unitOfWork.CartRepository.GetCartItemByProductIdAndUserId(productId, userId);
             if (cartItem == null)
             {
                 return NotFound("CartItem doesn't exist");
             }
-            await unitOfWork.CartItemGenericRepository.Delete(cartItem);
-            await unitOfWork.Save();
-            return Ok(cartItem);
+            try
+            {
+                await unitOfWork.CartItemGenericRepository.Delete(cartItem);
+                await unitOfWork.CartRepository.SaveCartItem();
+                await unitOfWork.Save();
+                return Ok(cartItem);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
+
+
 
         /// <summary>
         /// Adds a product to the cart.
@@ -202,5 +243,62 @@ namespace EcommerceAPI.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [HttpPost("checkout")]
+        public async Task<IActionResult> Checkout()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("User ID is missing");
+            }
+
+            Cart cart = await unitOfWork.CartRepository.GetCartByUserId(userId);
+            if (cart == null)
+            {
+                return NotFound("Cart doesn't exist");
+            }
+
+            try
+            {
+                await ProcessOrder(cart);
+                await unitOfWork.CartRepository.DeleteCartItemsByCartId(cart.Id);
+                await unitOfWork.CartRepository.Save();
+                await unitOfWork.Save();
+
+                return Ok("Checkout successful");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        private async Task ProcessOrder(Cart cart)
+        {
+            decimal totalAmount = cart.CartItems.Sum(item => item.Quantity * item.Price);
+
+            Order order = new Order
+            {
+                UserId = cart.UserId,
+                Timestamp = DateTime.Now,
+                TotalPrice = totalAmount,
+                ShippingAddress = "Delivery",
+                PaymentMethod = 1,
+                OrderStatus = 1,
+                User = cart.User,
+                OrderProducts = cart.CartItems.Select(cartItem => new OrderProduct
+                {
+                    ProductId = cartItem.ProductId,
+                    Quantity = cartItem.Quantity,
+                    UnitPrice = cartItem.Price
+                }).ToList()
+            };
+
+            await unitOfWork.OrderProductRepository.CreateOrder(order);
+            await unitOfWork.OrderProductRepository.Save();
+        }
+
+
     }
 }

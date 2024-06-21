@@ -1,7 +1,8 @@
-<br /><br />
+<br> <br>
+
 <div class="card">
   <div class="row">
-    <div class="col-md-8 cart me-0 pe-0">
+    <div class="col-md-8 cart">
       <div class="title">
         <div class="row">
           <div class="col">
@@ -10,9 +11,10 @@
           <div class="col align-self-center text-right text-muted">{{ totalItems }} items</div>
         </div>
       </div>
-      <div style="height: 280px; overflow-y: auto; overflow-x: hidden;">
+      <div class="cart-items-container" style="height: 280px; overflow-y: auto; overflow-x: hidden;">
         <app-cart-item *ngFor="let item of cartItems" [item]="item" (remove)="removeItem(item.productId)"
-          (quantityChange)="updateQuantity(item, $event)"></app-cart-item>
+          (quantityChange)="updateQuantity(item, $event)">
+        </app-cart-item>
       </div>
       <div class="back-to-shop">
         <a href="#">&leftarrow;</a><span class="text-muted">Back to shop</span>
@@ -24,22 +26,25 @@
       </div>
       <hr />
       <div class="row">
-        <div class="col" style="padding-left: 0;">ITEMS {{ totalItems }}</div>
-        <div class="col text-right">&euro; {{ totalPrice }}</div>
+        <div class="col">Items: {{ totalItems }}</div>
+        <div class="col text-right">&dollar; {{ totalPrice }}</div>
       </div>
       <form>
-        <p>SHIPPING</p>
-        <select>
-          <option class="text-muted">Standard-Delivery- &euro;5.00</option>
+        <p>Delivery Options</p>
+        <select class="form-control" (change)="onDeliveryOptionChange($event)">
+          <option value="0">Select delivery option</option>
+          <option value="5">Regular +5.0 &dollar; [7-10 Days]</option>
+          <option value="15">Standard +15.0 &dollar; [3-5 Days]</option>
+          <option value="25">Fast +25.0 &dollar; [in 24 Hours]</option>
         </select>
-        <p>GIVE CODE</p>
-        <input id="code" placeholder="Enter your code" />
+        <p>Discount Code</p>
+        <input id="code" class="form-control" placeholder="Enter your code" />
       </form>
       <div class="row" style="border-top: 1px solid rgba(0, 0, 0, 0.1); padding: 2vh 0;">
-        <div class="col">TOTAL PRICE</div>
-        <div class="col text-right">&euro; {{ totalPrice + 5 }}</div>
+        <div class="col">Total Price</div>
+        <div class="col text-right">&dollar; {{ totalPrice + deliveryCost | number:'1.2-2'}}</div>
       </div>
-      <button class="checkout-btn" (click)="clearCart()">CHECKOUT</button>
+      <button class="btn btn-primary checkout-btn" (click)="checkout()">Check Out</button>
     </div>
   </div>
 </div>

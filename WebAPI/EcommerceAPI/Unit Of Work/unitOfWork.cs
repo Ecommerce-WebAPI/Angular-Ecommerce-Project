@@ -30,6 +30,15 @@ namespace EcommerceAPI.Unit_Of_Work
             }
         }
 
+        private OrderProductRepository orderProductRepository;
+        public OrderProductRepository OrderProductRepository
+        {
+            get
+            {
+                return orderProductRepository ?? (orderProductRepository = new OrderProductRepository(db));
+            }
+        }
+
         private GenericRepository<Order> orderGenericRepository;
         public GenericRepository<Order> OrderGenericRepository
         {
