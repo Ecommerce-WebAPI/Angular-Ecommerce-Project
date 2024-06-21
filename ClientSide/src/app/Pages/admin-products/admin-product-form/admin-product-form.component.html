@@ -1,13 +1,21 @@
 <app-admin-sidebar></app-admin-sidebar>
-
-<main id="main" class="main">
-  <section class="section px-4 m-auto">
+<main
+  id="main"
+  class="main"
+  style="
+    min-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  "
+>
+  <section class="section px-4 m-auto w-75">
     <div class="row">
       <div class="col-lg-12">
         <div class="card p-4">
           <div class="card-body">
             <h3 class="my-3 text-center">
-              {{productId==0 ? "Add Product":"Edit Product"}}
+              {{productId == '0' ? "Add Product" : "Edit Product"}}
             </h3>
             <form
               [formGroup]="productForm"
@@ -19,132 +27,147 @@
                   type="text"
                   class="form-control"
                   id="productName"
-                  placeholder="product name"
+                  placeholder="Product Name"
                   formControlName="name"
                 />
+                <ng-container
+                  *ngIf="getName?.touched && getName?.hasError('required')"
+                >
+                  <div id="nameHelp" class="form-text text-danger pt-0">
+                    Name is required.
+                  </div>
+                </ng-container>
               </div>
-              <ng-container *ngIf="getName?.touched">
-                <div
-                  *ngIf="getName?.hasError('required')"
-                  id="nameHelp"
-                  class="form-text text-danger pt-0"
-                ></div>
-              </ng-container>
-              <div class="col-12">
-                <textarea
-                  class="form-control"
-                  id="productDescription "
-                  placeholder="Product Description"
-                  style="height: 70px;"
-                ></textarea>
-              </div>
-              <ng-container *ngIf="getDescription?.touched">
-                <div
-                  *ngIf="getDescription?.hasError('required')"
-                  id="descriptionHelp"
-                  class="form-text text-danger pt-0"
-                ></div>
-              </ng-container>
-              <div class="col-12">
-                <input
-                  type="number"
-                  class="form-control"
-                  id="price"
-                  placeholder="price"
-                  formControlName="price"
-                />
-              </div>
-              <ng-container *ngIf="getPrice?.touched">
-                <div
-                  *ngIf="getPrice?.hasError('required')"
-                  id="priceHelp"
-                  class="form-text text-danger pt-0"
-                ></div>
-              </ng-container>
-              <div class="col-12">
-                <input
-                  type="number"
-                  class="form-control"
-                  id="quantity"
-                  placeholder="quantity"
-                  formControlName="quantity"
-                />
-              </div>
-              <ng-container *ngIf="getQuantity?.touched">
-                <div
-                  *ngIf="getQuantity?.hasError('required')"
-                  id="quantityHelp"
-                  class="form-text text-danger pt-0"
-                ></div>
-              </ng-container>
               <div class="col-12">
                 <input
                   type="file"
                   class="form-control"
                   id="productimage"
-                  formControlName="image" 
-                  (change)="onFileSelected($event)" 
-                  accept="image/*" 
-                  placeholder="upload image"
+                  formControlName="image"
+                  (change)="onFileSelected($event)"
+                  accept="image/*"
+                  placeholder="Upload Image"
                 />
-              </div>
-              <ng-container *ngIf="getImage?.touched">
+                <ng-container
+                  *ngIf="getImage?.touched && getImage?.hasError('required')"
+                >
+                  <div id="imageHelp" class="form-text text-danger pt-0">
+                    Image is required.
+                  </div>
+                </ng-container>
+                <!-- Loader for image upload -->
                 <div
-                  *ngIf="getImage?.hasError('required')"
-                  id="imageHelp"
-                  class="form-text text-danger pt-0"
-                ></div>
-              </ng-container>
+                  *ngIf="uploadingImage"
+                  class="d-flex align-items-center mt-2"
+                >
+                  <div class="spinner-border text-dark fs-6 me-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <div>Uploading image...</div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <textarea
+                  class="form-control"
+                  id="productDescription"
+                  placeholder="Product Description"
+                  formControlName="description"
+                  style="height: 70px;"
+                ></textarea>
+                <ng-container
+                  *ngIf="getDescription?.touched && getDescription?.hasError('required')"
+                >
+                  <div id="descriptionHelp" class="form-text text-danger pt-0">
+                    Description is required.
+                  </div>
+                </ng-container>
+              </div>
+              <div class="col-12">
+                <input
+                  type="number"
+                  class="form-control"
+                  id="price"
+                  placeholder="Price"
+                  formControlName="price"
+                />
+                <ng-container
+                  *ngIf="getPrice?.touched && getPrice?.hasError('required')"
+                >
+                  <div id="priceHelp" class="form-text text-danger pt-0">
+                    Price is required.
+                  </div>
+                </ng-container>
+              </div>
+              <div class="col-12">
+                <input
+                  type="number"
+                  class="form-control"
+                  id="quantity"
+                  placeholder="Quantity"
+                  formControlName="quantity"
+                />
+                <ng-container
+                  *ngIf="getQuantity?.touched && getQuantity?.hasError('required')"
+                >
+                  <div id="quantityHelp" class="form-text text-danger pt-0">
+                    Quantity is required.
+                  </div>
+                </ng-container>
+              </div>
               <div class="col-12">
                 <input
                   type="number"
                   class="form-control"
                   id="discount"
-                  placeholder="discount"
+                  placeholder="Discount"
                   formControlName="discount"
                 />
+                <ng-container
+                  *ngIf="getDiscount?.touched && getDiscount?.hasError('required')"
+                >
+                  <div id="discountHelp" class="form-text text-danger pt-0">
+                    Discount is required.
+                  </div>
+                </ng-container>
               </div>
-              <ng-container *ngIf="getDiscount?.touched">
-                <div
-                  *ngIf="getDiscount?.hasError('required')"
-                  id="discountHelp"
-                  class="form-text text-danger pt-0"
-                ></div>
-              </ng-container>
+
               <div class="col-12">
-                <input
-                  type="number"
-                  class="form-control"
+                <label for="categoryId">Choose category</label>
+                <select
+                  class="form-control custom-select"
                   id="categoryId"
                   formControlName="categoryId"
-                  placeholder="product category"
-                />
-              </div>
-              <ng-container *ngIf="getCategoryId?.touched">
-                <div
-                  *ngIf="getCategoryId?.hasError('required')"
-                  id="categoryHelp"
-                  class="form-text text-danger pt-0"
-                ></div>
-              </ng-container>
-              <!-- <div class="col-12">
-                <select
-                  id="category"
-                  class="form-select"
-                  formControlName="categoryId"
                 >
-                  <option selected disabled>Choose ...</option>
-                  <option *ngFor="let category of product"
-                    >{{getCategoryId}}</option
+                  <!-- <option selected disabled value="0">Select Category</option> -->
+                  <option
+                    *ngFor="let category of categories"
+                    [value]="category.id"
                   >
+                    {{ category.name }}
+                  </option>
                 </select>
-              </div> -->
+                <ng-container
+                  *ngIf="getCategoryId?.touched && getCategoryId?.hasError('required')"
+                >
+                  <div id="categoryHelp" class="form-text text-danger pt-0">
+                    Category is required.
+                  </div>
+                </ng-container>
+              </div>
 
               <div class="text-center">
-                <button type="submit" class="btn btn-primary px-4 me-3">
+                <button
+                  type="submit"
+                  class="btn btn-primary px-4 px-3 py-2 me-3"
+                >
                   Submit
                 </button>
-                <button type="reset" class="btn btn-secondary px-4">
+                <button
+                  type="reset"
+                  class="btn btn-secondary px-4 px-3 py-2"
+                  (click)="productForm.reset()"
+                >
                   Reset
                 </button>
               </div>

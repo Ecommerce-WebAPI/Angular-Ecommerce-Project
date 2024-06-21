@@ -1,9 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AdminSidebarComponent } from '../../../components/admin-sidebar/admin-sidebar.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductService } from '../../../services/product.service';
+import { CategoryService } from '../../../services/category.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AdminSidebarComponent } from '../../../components/admin-sidebar/admin-sidebar.component';
 import { CommonModule } from '@angular/common';
+import { ICategory } from '../../../interfaces/i-category';
 
 @Component({
   selector: 'app-admin-product-form',
@@ -13,7 +16,6 @@ import { CommonModule } from '@angular/common';
   imports: [AdminSidebarComponent, CommonModule, ReactiveFormsModule]
 })
 export class AdminProductFormComponent implements OnInit, OnDestroy {
-
   productForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     categoryId: new FormControl(null, [Validators.required]),
@@ -22,8 +24,10 @@ export class AdminProductFormComponent implements OnInit, OnDestroy {
     image: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
     discount: new FormControl(null),
+  });
 
-  })
+  categories: ICategory[] = [];
+  uploadingImage: boolean = false;
 
   get getName() {
     return this.productForm.get('name');
@@ -55,56 +59,82 @@ export class AdminProductFormComponent implements OnInit, OnDestroy {
 
   productId: any;
   product: any;
-  subscriber: any;
+  subscriber: Subscription | undefined;
+  routeSubscriber: Subscription | undefined;
+  selectedFile: File | undefined;
+
   constructor(
     public productService: ProductService,
+    public categoryService: CategoryService,
     public router: Router,
-    public activetedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute
   ) { }
 
   ngOnDestroy(): void {
-    this.subscriber.unsubscribe();
+    if (this.subscriber) {
+      this.subscriber.unsubscribe();
+    }
+    if (this.routeSubscriber) {
+      this.routeSubscriber.unsubscribe();
+    }
   }
 
   ngOnInit(): void {
-    this.activetedRoute.params.subscribe({
+    this.routeSubscriber = this.activatedRoute.params.subscribe({
       next: (params) => {
         this.productId = params['id'];
-        this.getName?.setValue('');
-        this.getDescription?.setValue('');
-        this.getPrice?.setValue(null);
-        this.getQuantity?.setValue(null);
-        this.getImage?.setValue('');
-        this.getDiscount?.setValue(null);
-        this.getCategoryId?.setValue(null);
+        this.resetForm();
+
+        if (this.productId != '0') {
+          this.subscriber = this.productService.getById(this.productId).subscribe({
+            next: (data) => {
+              this.product = data;
+              this.populateForm();
+            },
+            error: (error) => {
+              console.log(error);
+            }
+          });
+        }
       }
     });
 
-    if (this.productId != 0) {
-      this.subscriber = this.product = this.productService
-        .getById(this.productId).subscribe({
-          next: (data) => {
-            this.product = data;
-            this.getName?.setValue(this.product.name);
-            this.getDescription?.setValue(this.product.description);
-            this.getPrice?.setValue(this.product.price);
-            this.getQuantity?.setValue(this.product.quantity);
-            this.getImage?.setValue(this.product.image);
-            this.getDiscount?.setValue(this.product.discount);
-            this.getCategoryId?.setValue(this.product.categoryId);
-          },
-          error: (error) => {
-            console.log(error);
-          }
-        });
-    }
+    //fetch categories
+    this.categoryService.getAll().subscribe({
+      next: (data) => {
+        this.categories = data;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  resetForm() {
+    this.getName?.setValue('');
+    this.getDescription?.setValue('');
+    this.getPrice?.setValue(null);
+    this.getQuantity?.setValue(null);
+    this.getImage?.setValue('');
+    this.getDiscount?.setValue(null);
+    this.getCategoryId?.setValue(null);
+  }
+
+  populateForm() {
+    this.getName?.setValue(this.product.name);
+    this.getDescription?.setValue(this.product.description);
+    this.getPrice?.setValue(this.product.price);
+    this.getQuantity?.setValue(this.product.quantity);
+    this.getImage?.setValue(this.product.image);
+    this.getDiscount?.setValue(this.product.discount);
+    this.getCategoryId?.setValue(this.product.categoryId);
   }
 
   productHandler() {
     if (this.productForm.status === 'VALID') {
       console.log(this.productForm.value);
 
-      if (this.productId == 0) {
+      if (this.productId == '0') {
         this.productService.add(this.productForm.value).subscribe({
           next: () => {
             this.router.navigate(['/adminproducts']);
@@ -113,89 +143,57 @@ export class AdminProductFormComponent implements OnInit, OnDestroy {
             console.log(error);
           }
         });
-      }
-      else {
-        this.productService.edit(this.product.id, this.productForm.value).subscribe({
+      } else {
+        this.productService.edit(this.productId, this.productForm.value).subscribe({
           next: () => {
             this.router.navigate(['/adminproducts']);
           },
           error: (error) => {
             console.log(error);
           }
-        })
+        });
       }
-    }
-    else {
+    } else {
       console.log("Invalid form");
     }
   }
 
-
-
-  // selectedFile: File | undefined;
-  // onFileSelected(event: any) {
-  //   console.log("file selected");
-  //   this.selectedFile = event.target.files[0] as File;
-  //   this.uploadFile();
-  // }
-  // uploadFile() {
-  //   if (this.selectedFile) {
-  //     const formData = new FormData();
-  //     formData.append('file', this.selectedFile);
-  //     formData.append('upload_preset', 'angular_images');
-
-  //     fetch('https://api.cloudinary.com/v1_1/dbo2eybma/image/upload', {
-  //       method: 'POST',
-  //       body: formData,
-  //     })
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         if (data.secure_url) {
-  //           console.log(`Uploaded Image Url : xx : ${data.secure_url}`);
-  //           this.productForm?.patchValue({ image: data.secure_url });
-  //           console.log(`Uploaded Image Url : xx : ${this.getImage}`);
-  //           console.log(`Updated Image Url: ${this.getImage?.value}`);
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.error('Error uploading file to Cloudinary:', error);
-  //       });
-  //   }
-  // }
-
-  
-  selectedFile: File | undefined;
   async onFileSelected(event: any) {
-      console.log("file selected");
-      this.selectedFile = event.target.files[0] as File;
-      await this.uploadFile();
+    console.log("File selected");
+    this.selectedFile = event.target.files[0] as File;
+    await this.uploadFile();
   }
-  async uploadFile() {
-      if (this.selectedFile) {
-          const formData = new FormData();
-          formData.append('file', this.selectedFile);
-          formData.append('upload_preset', 'angular_images');
-          fetch('https://api.cloudinary.com/v1_1/dbo2eybma/image/upload', {
-              method: 'POST',
-              body: formData,
-          })
-              .then(async (response) => await response.json())
-              .then(async (data) => {
-                  if (data.secure_url) {
-                      console.log("url:" + data.secure_url);
-                      this.productForm?.patchValue({ image: data.secure_url });
-                      console.log("image:" + this.getImage);
-                      this.productForm?.markAsDirty();
 
-                  }
-              })
-              .catch((error) => {
-                  console.error('Error uploading file to Cloudinary:', error);
-              });
+  async uploadFile() {
+    if (this.selectedFile) {
+      this.uploadingImage = true;
+
+      const formData = new FormData();
+      formData.append('file', this.selectedFile);
+      formData.append('upload_preset', 'angular_images');
+
+      try {
+        const response = await fetch('https://api.cloudinary.com/v1_1/dbo2eybma/image/upload', {
+          method: 'POST',
+          body: formData,
+        });
+        const data = await response.json();
+        if (data.secure_url) {
+          console.log("Uploaded image URL:", data.secure_url);
+          this.productForm.patchValue({ image: data.secure_url });
+          this.productForm.markAsDirty();
+        } else {
+          console.error('Failed to upload file to Cloudinary:', data);
+        }
+      } catch (error) {
+        console.error('Error uploading file to Cloudinary:', error);
+      } finally {
+        this.uploadingImage = false;
       }
+    }
   }
 
   testImgURL() {
-      console.log("xxx:" + this.productForm?.controls['image'].value);
+    console.log("Current image URL:", this.productForm?.controls['image'].value);
   }
 }

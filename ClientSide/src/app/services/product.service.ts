@@ -3,16 +3,18 @@ import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { IProduct } from '../interfaces/i-product';
 import { Observable } from 'rxjs';
+import { ICategory } from '../interfaces/i-category';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
   apiurl: string = "http://localhost:5000/api/products";
+  categoryApiUrl: string = "http://localhost:5000/api/categories";
 
   constructor(private httpClient: HttpClient) { }
 
-  getAll() : Observable<IProduct[]> {
+  getAll(): Observable<IProduct[]> {
     return this.httpClient.get<IProduct[]>(this.apiurl);
   }
 
@@ -35,4 +37,5 @@ export class ProductService {
   getByCategory(categoryName: string): Observable<IProduct[]> {
     return this.httpClient.get<IProduct[]>(`${this.apiurl}?categoryName=${categoryName}`);
   }
+
 }

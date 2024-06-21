@@ -2,7 +2,8 @@
 # Profie Page
 ---------------------------*/
 .profile .profile-card img {
-    max-width: 120px;
+    width: 120px;
+    height: 120px;
   }
   
   .profile .profile-card h2 {
