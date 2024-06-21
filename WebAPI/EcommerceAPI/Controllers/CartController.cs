@@ -2,7 +2,8 @@
 using EcommerceAPI.DTO.ControllersDTOs;
 using EcommerceAPI.Models;
 using EcommerceAPI.Unit_Of_Work;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceAPI.Controllers
@@ -11,15 +12,70 @@ namespace EcommerceAPI.Controllers
     [Consumes("application/json")]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CartController : ControllerBase
     {
         private readonly IMapper mapper;
         private readonly unitOfWork unitOfWork;
-
-        public CartController(unitOfWork unitOfWork, IMapper mapper)
+        private UserManager<ApplicationUser> userManager;
+        public CartController(unitOfWork unitOfWork, UserManager<ApplicationUser> userManager, IMapper mapper)
         {
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
+            this.userManager = userManager;
+        }
+
+        /// <summary>
+        /// add to cart
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CartItem))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpPost("{productId}")]
+        public async Task<IActionResult> AddToCart(int productId)
+        {
+            try
+            {
+                var user = await userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return Unauthorized();
+                }
+
+                var cart = await unitOfWork.CartRepository.GetCartByUserId(user.Id);
+                if (cart == null)
+                {
+                    cart = new Cart { UserId = user.Id, Timestamp = DateTime.UtcNow, TotalPrice = 0 };
+                    await unitOfWork.CartRepository.Add(cart);
+                    await unitOfWork.Save();
+                }
+
+                var product = await unitOfWork.ProductGenericRepository.GetById(productId);
+                if (product == null)
+                {
+                    return BadRequest("Invalid product ID");
+                }
+
+                var cartItem = new CartItem
+                {
+                    Quantity = 1,
+                    CartId = cart.Id,
+                    Name = product.Name,
+                    ProductId = productId,
+                    Price = product.Price,
+                    ImageUrl = product.Image
+                };
+
+                await unitOfWork.CartItemGenericRepository.Add(cartItem);
+                await unitOfWork.Save();
+                return Ok("Product added to cart successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         /// <summary>
@@ -43,6 +99,30 @@ namespace EcommerceAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// get cart items using cart id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("GetUserCartItemsByCartID/{id:int}")]
+        public async Task<IActionResult> GetUserCartItemsByCartID(int id)
+        {
+            try
+            {
+                var cartItems = await unitOfWork.CartRepository.GetUserCartItemsByCartId(id);
+                if (cartItems == null)
+                {
+                    return BadRequest("No such items in this cart id");
+                }
+                return Ok(cartItems);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error !!");
+            }
+        }
+
+        
         /// <summary>
         /// Retrieves a cart by ID.
         /// </summary>
@@ -69,7 +149,9 @@ namespace EcommerceAPI.Controllers
                 return StatusCode(500, "Internal server error !!");
             }
         }
-
+       
+        
+      
         // PUT: api/Cart/5
         /// <summary>
         /// Updates a cart.
@@ -154,5 +236,6 @@ namespace EcommerceAPI.Controllers
             await unitOfWork.Save();
             return Ok(cart);
         }
+
     }
 }

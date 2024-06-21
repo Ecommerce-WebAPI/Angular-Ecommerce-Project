@@ -1,98 +1,110 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { tap, switchMap, map, catchError } from 'rxjs/operators';
 import { ICartItem } from './../interfaces/i-cart-item';
+import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
   apiurl: string = environment.apiUrl;
+  private cartItemsSubject = new BehaviorSubject<ICartItem[]>([]);
+  cartItems$ = this.cartItemsSubject.asObservable();
+  private cartIdSubject = new BehaviorSubject<number | null>(null);
+  cartId$ = this.cartIdSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  getCart(): Observable<ICartItem[]> {
-    return this.http.get<ICartItem[]>(`${this.apiurl}Cart`);
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
   }
 
-  addToCart(productId: number): Observable<void> {
-    return this.http.post<void>(`${this.apiurl}CartItem/${productId}`, {});
+  fetchCartId(): Observable<number | null> {
+    return this.http.get<any[]>(`${this.apiurl}Cart`, { 
+      headers: this.getHeaders() 
+    }).pipe(
+      map(cartInfo => cartInfo.length > 0 ? cartInfo[0].id : null),
+      tap(cartId => this.cartIdSubject.next(cartId))
+    );
   }
 
-  removeFromCart(productId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiurl}CartItem/${productId}`);
+  getUserCartItemsByCartId(cartId: number): Observable<ICartItem[]> {
+    return this.http.get<ICartItem[]>(`${this.apiurl}Cart/GetUserCartItemsByCartID/${cartId}`, {
+      headers: this.getHeaders()
+    }).pipe(
+      tap(items => this.cartItemsSubject.next(items))
+    );
   }
 
-  updateCartItem(productId: number, quantity: number): Observable<void> {
-    return this.http.put<void>(`${this.apiurl}CartItem/${productId}`, { quantity });
+  fetchCart(): Observable<ICartItem[]> {
+    return this.fetchCartId().pipe(
+      switchMap(cartId => {
+        if (cartId !== null) {
+          return this.getUserCartItemsByCartId(cartId);
+        } else {
+          return new Observable<ICartItem[]>(subscriber => subscriber.next([]));
+        }
+      })
+    );
+  }
+  
+  addToCart(productId: number) {
+    console.log("add 2 cart called from service");
+    return this.http.post(`${this.apiurl}Cart/${productId}`, {}, { 
+      headers: this.getHeaders() 
+    }).pipe(
+      tap(() => this.fetchCart().subscribe())
+    );
   }
 
-  clearCart(): Observable<void> {
-    return this.http.delete<void>(`${this.apiurl}Cart`);
+  removeFromCart(productId: number){
+    return this.http.delete(`${this.apiurl}CartItem/${productId}`, { 
+      headers: this.getHeaders() 
+    }).pipe(
+      tap(() => this.fetchCart().subscribe())
+    );
   }
 
-  // checkout() {
-  //   return this.http.post(`${this.apiurl}orders`, {});
-  // }
+  updateCartItem(item: ICartItem) {
+    const url = `${this.apiurl}CartItem/${item.productId}`;
+    console.log(`method: update, url: ${url}`);
+    
+    return this.http.put(url, item, {
+      headers: this.getHeaders()
+    }).pipe(
+      tap(() => this.fetchCart().subscribe())
+    );
+}
 
-  // getOrders() {
-  //   return this.http.get(`${this.apiurl}orders`);
-  // }
 
-  // getDeliveryMethods() {
-  //   return this.http.get(`${this.apiurl}orders/deliveryMethods`);
-  // }
+  checkout() {
+    const url = `${this.apiurl}CartItem/checkout`;
+    console.log(`method: checkout, url: ${url}`);
 
-  // getPaymentMethods() {
-  //   return this.http.get(`${this.apiurl}orders/paymentMethods`);
-  // }
+    return this.http.post(url, {}, {
+      headers: this.getHeaders()
+    }).pipe(
+      tap(() => this.fetchCart().subscribe()),
+      catchError(error => {
+        console.error('Error during checkout:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops!',
+          text: 'An error occurred during checkout',
+          timer: 3000,
+          showConfirmButton: false,
+        });
+        return throwError(error);
+      })
+    );
+  }
 
-  // getDeliveryMethod(id: number) {
-  //   return this.http.get(`${this.apiurl}orders/deliveryMethods/${id}`);
-  // }
-
-  // getPaymentMethod(id: number) {
-  //   return this.http.get(`${this.apiurl}orders/paymentMethods/${id}`);
-  // }
-
-  // getPaymentIntent(id: number) {
-  //   return this.http.get(`${this.apiurl}orders/${id}/paymentIntent`);
-  // }
-
-  // getBasket(id: number) {
-  //   return this.http.get(`${this.apiurl}basket?id=${id}`);
-  // }
-
-  // createPaymentIntent(id: number) {
-  //   return this.http.post(`${this.apiurl}orders/${id}/paymentIntent`, {});
-  // }
-
-  // createOrder(order: any) {
-  //   return this.http.post(`${this.apiurl}orders`, order);
-  // }
-
-  // getOrdersForUser() {
-  //   return this.http.get(`${this.apiurl}orders`);
-  // }
-
-  // getOrder(id: number) {
-  //   return this.http.get(`${this.apiurl}orders/${id}`);
-  // }
-
-  // cancelOrder(id: number) {
-  //   return this.http.delete(`${this.apiurl}orders/${id}`);
-  // }
-
-  // deleteOrder(id: number) {
-  //   return this.http.delete(`${this.apiurl}orders/${id}`);
-  // }
-
-  // updateOrder(id: number, order: any) {
-  //   return this.http.put(`${this.apiurl}orders/${id}`, order);
-  // }
-
-  // updateDeliveryMethod(id: number, deliveryMethodId: number) {
-  //   return this.http.put(`${this.apiurl}orders/${id}/delivery`, { deliveryMethodId });
-  // }
 }

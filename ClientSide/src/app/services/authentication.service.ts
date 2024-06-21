@@ -9,9 +9,7 @@ import { IAuthResponse } from '../interfaces/i-auth-response';
 import { IRegisterRequest } from '../interfaces/i-register-request';
 import { IUserDetails } from '../interfaces/i-user-details';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 
 export class AuthenticationService {
   private tokenkey = 'token';
@@ -34,6 +32,7 @@ export class AuthenticationService {
       })
     );
   }
+
   register(data: IRegisterRequest): Observable<IAuthResponse> {
     const url =`${this.apiurl}account/register`;
     console.log('register url: ' + url);
@@ -93,11 +92,9 @@ export class AuthenticationService {
      return this.http.get<IUserDetails>(url);
   }
 
-
   forgetPassword(email:string): Observable<IAuthResponse>{
     const url = `${this.apiurl}account/forget-password`;
     console.log(`url of forget password: ${url}`);
     return this.http.post<IAuthResponse>(url, {email});
   }
-
 }

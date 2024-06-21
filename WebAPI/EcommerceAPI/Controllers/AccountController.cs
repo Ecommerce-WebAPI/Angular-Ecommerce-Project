@@ -131,7 +131,8 @@ namespace EcommerceAPI.Controllers
                     });
                 }
 
-                var token = GenerateToken(user);
+                //var token = GenerateToken(user);
+                var token = GenerateToken(user, loginDTO.RememberMe);
 
                 return Ok(new AuthResponseDTO
                 {
@@ -148,7 +149,7 @@ namespace EcommerceAPI.Controllers
         }
 
         #region helper function
-        private string GenerateToken(ApplicationUser applicationUser)
+        private string GenerateToken(ApplicationUser applicationUser, bool? rememberMe)
         {
             List<Claim> claims = [
                 new Claim (JwtRegisteredClaimNames.NameId, applicationUser.Id??""),
@@ -157,18 +158,28 @@ namespace EcommerceAPI.Controllers
                 new Claim (JwtRegisteredClaimNames.FamilyName, applicationUser.LastName??""),
                 new Claim (JwtRegisteredClaimNames.Iss, configuration.GetSection("JwtSettings").GetSection("ValidIssuer").Value!??""),
                 new Claim (JwtRegisteredClaimNames.Aud, configuration.GetSection("JwtSettings").GetSection("ValidAudience").Value!??""),
-                new Claim("address", applicationUser.Address ?? ""),
+                new Claim ("address", applicationUser.Address ?? ""),
                 new Claim ("phoneNumber", applicationUser.PhoneNumber??""),
                 new Claim ("profileImage", applicationUser.ProfileImage??""),
-                new Claim("phoneNumberConfirmed", applicationUser.PhoneNumberConfirmed.ToString()??""),
-                new Claim("twoFactorEnabled", applicationUser.TwoFactorEnabled.ToString()??""),
-                new Claim("accessFailedCount", applicationUser.AccessFailedCount.ToString()??""),
+                new Claim ("phoneNumberConfirmed", applicationUser.PhoneNumberConfirmed.ToString()??""),
+                new Claim ("twoFactorEnabled", applicationUser.TwoFactorEnabled.ToString()??""),
+                new Claim ("accessFailedCount", applicationUser.AccessFailedCount.ToString()??""),
             ];
 
             var roles = userManager.GetRolesAsync(applicationUser).Result;
             foreach (var role in roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            DateTime expiration;
+            if (rememberMe == true)
+            {
+                expiration = DateTime.UtcNow.AddDays(7);
+            }
+            else
+            {
+                expiration = DateTime.UtcNow.AddDays(1);
             }
 
             // signature
@@ -180,7 +191,9 @@ namespace EcommerceAPI.Controllers
 
                 // payload: extra data as [expire date, claims, audience, issure]
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(1),
+                Expires = expiration,
+                Issuer = (configuration.GetSection("JwtSettings").GetSection("ValidIssuer").Value! ?? ""),
+                Audience = (configuration.GetSection("JwtSettings").GetSection("ValidAudience").Value! ?? "")
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();

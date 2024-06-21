@@ -9,8 +9,9 @@ import { ICategory } from '../interfaces/i-category';
   providedIn: 'root'
 })
 export class ProductService {
-  apiurl: string = "http://localhost:5000/api/products";
+  //apiurl: string = "http://localhost:5000/api/products";
   categoryApiUrl: string = "http://localhost:5000/api/categories";
+  apiurl: string = `${environment.apiUrl}products`;
 
   constructor(private httpClient: HttpClient) { }
 

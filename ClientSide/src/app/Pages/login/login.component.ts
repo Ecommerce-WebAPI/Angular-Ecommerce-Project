@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
@@ -14,12 +14,11 @@ import { VisibilityService } from '../../services/visibility.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent implements OnInit {
-
+export class LoginComponent implements OnInit, OnDestroy {
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
-    remember: new FormControl('')
+    rememberMe: new FormControl(false)
   });
 
   constructor(public authenticationService: AuthenticationService, public router:Router, public visibilityService: VisibilityService){}
@@ -30,20 +29,13 @@ export class LoginComponent implements OnInit {
   ngOnDestroy() {
     this.visibilityService.changeVisibility(true);
   }
+
   login() {
     const loginRequest: ILoginRequest = {
-      email: this.loginForm.value.email as string,
-      password: this.loginForm.value.password as string,
-      remember: this.loginForm.value.remember as any
+      email: this.loginForm.value.email!,
+      password: this.loginForm.value.password!,
+      rememberMe: this.loginForm.value.rememberMe!
     };
-
-    // find email in localstorage
-
-    // const pass = localStorage.getItem(loginRequest.email);
-    // if(pass){
-    //   loginRequest.password = pass;
-    // }
-
 
     console.log(`login request: ${JSON.stringify(loginRequest)}`);
     this.authenticationService.login(loginRequest).subscribe({
@@ -73,5 +65,4 @@ export class LoginComponent implements OnInit {
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
-
 }

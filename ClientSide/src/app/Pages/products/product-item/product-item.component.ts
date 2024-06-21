@@ -23,14 +23,14 @@ export class ProductItemComponent {
 
   addToCart() {
     console.log("add to cart btn is clicked!");
+    console.log(`product + ${JSON.stringify(this.product)}`);
     
     this.cartService.addToCart(this.product.id).subscribe({
       next: () => {
         console.log(`Product ${this.product.name} added to cart.`);
-        // Optionally, you can show a success message to the user
       },
       error: (error) => {
-        console.error('Error adding product to cart:', error);
+        console.error('Adding product to cart failed :(, ', error);
       }
     });
   }
