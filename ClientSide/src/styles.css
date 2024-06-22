@@ -1,9 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
+/* snackbar classes design: must be global */
 .custom-snackbar {
   margin-top: 60px !important;
 }
-
+/* .login-failed-snackbar {
+  margin-top: 30px !important;
+  background-color: #db4444 !important;
+}
+.login-success-snackbar {
+  margin-top: 30px !important;
+  background-color: #00d656 !important;
+}
+.productAdded2Cart-failed-snackbar {
+  margin-top: 30px !important;
+  background-color: #db4444 !important;
+}
+.productAdded2Cart-success-snackbar {
+  margin-top: 30px !important;
+  background-color: #00d656 !important;
+} */
+/* end snackbar classes design */
 :root {
   --primary: #000 !important;
   --secondry: #db4444;

@@ -6,6 +6,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { ILoginRequest } from '../../interfaces/i-login-request';
 import Swal from 'sweetalert2';
 import { VisibilityService } from '../../services/visibility.service';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     rememberMe: new FormControl(false)
   });
 
-  constructor(public authenticationService: AuthenticationService, public router:Router, public visibilityService: VisibilityService){}
+  constructor(public authenticationService: AuthenticationService, public router:Router, public visibilityService: VisibilityService, private snackBar: MatSnackBar){}
   ngOnInit() {
     this.visibilityService.changeVisibility(false);
   }
@@ -29,6 +30,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.visibilityService.changeVisibility(true);
   }
+
+  private snackBarConfig: MatSnackBarConfig = {
+    duration: 3000,
+    horizontalPosition: 'end',
+    verticalPosition: 'bottom',
+    panelClass: 'custom-snackbar',
+  };
 
   login() {
     const loginRequest: ILoginRequest = {
@@ -41,22 +49,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authenticationService.login(loginRequest).subscribe({
       next:(response)=> {
         this.router.navigate(['/']);
-        Swal.fire({
-          icon: 'success',
-          title: 'Success',
-          text: response.message,
-          timer: 3000,
-          showConfirmButton: false,
-        });
+        this.snackBar.open(`${response.message} 🥳`, 'Close', this.snackBarConfig);
       },
       error:(error)=> {
-        Swal.fire({
-          icon: 'error',
-          title: 'Login Failed',
-          text: error.error.message,
-          timer: 3000,
-          showConfirmButton: false
-        });
+        this.snackBar.open(`Login failed 😌`, 'Close', this.snackBarConfig);
       }
     })
   }

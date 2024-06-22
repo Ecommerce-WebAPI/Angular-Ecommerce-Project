@@ -17,7 +17,7 @@ export class CartComponent implements OnInit {
   totalPrice: number = 0;
   totalItems: number = 0;
   deliveryCost: number = 0;
-  discountCode: number = 0;
+  discountMoney: number = 0;
   cartItems: ICartItem[] = [];
 
   constructor(private cartService: CartService, private snackBar: MatSnackBar) { }
@@ -73,18 +73,25 @@ export class CartComponent implements OnInit {
     panelClass: 'custom-snackbar',
   };
 
-  checkout(discountCode: string) {
-    if (discountCode === 'DISCOUNT10') {
-      this.discountCode = this.totalPrice * 0.1;
+  applyDiscountCode(discountCode:string){
+      if (discountCode === '22 men3m') {
+      this.discountMoney = this.totalPrice * 0.1;
       console.log("total price before discount",this.totalPrice);
-      this.totalPrice = this.totalPrice - this.discountCode;
-      console.log("total price after discount",this.totalPrice);
-      this.totalPrice += this.deliveryCost;
-      console.log("total price after discount + delivery",this.totalPrice);
+      
     }
+  }
+
+  checkout(discountCode: string) {
+    this.totalPrice = this.totalPrice - this.discountMoney;
+    console.log("total price after discount",this.totalPrice);
+    if(!this.deliveryCost){
+      this.deliveryCost = 5; // standard delivery
+    }
+    this.totalPrice += this.deliveryCost;
+    console.log("total price after discount + delivery",this.totalPrice);
 
     this.cartService.checkout().subscribe(() => {
-      this.snackBar.open('Checkout done successfully 🥳', 'Close', this.snackBarConfig);
+      this.snackBar.open('Congratulations 🥳🥳', 'Close', this.snackBarConfig);
       this.cartItems = [];
       this.totalPrice = 0;
       this.totalItems = 0;
@@ -93,4 +100,7 @@ export class CartComponent implements OnInit {
       this.snackBar.open('Checkout failed 😌', 'Close', this.snackBarConfig);
     });
   }
+
+
+
 }
