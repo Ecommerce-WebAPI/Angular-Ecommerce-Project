@@ -1,8 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
+.custom-snackbar {
+  margin-top: 60px !important;
+}
+
 :root {
   --primary: #000 !important;
-  --secondry: #db4444;  
+  --secondry: #db4444;
   --light-bg: #3b5d50;
   --light: #f5f8f53d;
   --gray-600: #6c757d;
@@ -108,12 +112,18 @@ a.more {
   margin-bottom: 30px;
 }
 
-
-  
 .section_category_p {
   border-left: 1.4rem solid var(--colo-primary);
   padding-left: 1.5rem;
   margin-bottom: 1.5rem;
   color: var(--colo-primary);
   font-size: 1.2rem;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }

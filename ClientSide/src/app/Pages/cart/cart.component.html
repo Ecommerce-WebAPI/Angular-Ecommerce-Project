@@ -1,5 +1,4 @@
-<br> <br>
-
+<br><br>
 <div class="card">
   <div class="row">
     <div class="col-md-8 cart">
@@ -27,7 +26,7 @@
       <hr />
       <div class="row">
         <div class="col">Items: {{ totalItems }}</div>
-        <div class="col text-right">&dollar; {{ totalPrice }}</div>
+        <div class="col text-right">&dollar; {{ totalPrice | number:'1.2-2' }}</div>
       </div>
       <form>
         <p>Delivery Options</p>
@@ -38,13 +37,27 @@
           <option value="25">Fast +25.0 &dollar; [in 24 Hours]</option>
         </select>
         <p>Discount Code</p>
-        <input id="code" class="form-control" placeholder="Enter your code" />
+        <input #discountCodeInput id="code" class="form-control" placeholder="Enter your code" />
       </form>
       <div class="row" style="border-top: 1px solid rgba(0, 0, 0, 0.1); padding: 2vh 0;">
-        <div class="col">Total Price</div>
-        <div class="col text-right">&dollar; {{ totalPrice + deliveryCost | number:'1.2-2'}}</div>
+        <div class="col">
+          <div class="row">
+            <div class="col">Discount</div>
+            <div class="col text-right">&dollar; {{ discountCode | number:'1.2-2' }}</div>
+          </div>
+        </div>
       </div>
-      <button class="btn btn-primary checkout-btn" (click)="checkout()">Check Out</button>
+
+      <div class="row">
+        <div class="col">
+          <div class="row">
+            <div class="col">Total Price</div>
+            <div class="col text-right">&dollar; {{ (totalPrice + deliveryCost - discountCode) | number:'1.2-2' }}</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary checkout-btn" (click)="checkout(discountCodeInput.value)">Check Out</button>
     </div>
   </div>
 </div>
