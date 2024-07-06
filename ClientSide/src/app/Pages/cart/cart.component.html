@@ -1,5 +1,4 @@
-<br> <br>
-
+<br><br>
 <div class="card">
   <div class="row">
     <div class="col-md-8 cart">
@@ -22,29 +21,49 @@
     </div>
     <div class="col-md-4 summary">
       <div>
-        <h5><b>Summary</b></h5>
+        <h4><b>Summary</b></h4>
       </div>
       <hr />
       <div class="row">
         <div class="col">Items: {{ totalItems }}</div>
-        <div class="col text-right">&dollar; {{ totalPrice }}</div>
+        <div class="col text-right">&dollar; {{ totalPrice | number:'1.2-2' }}</div>
       </div>
       <form>
-        <p>Delivery Options</p>
+        <pre> Delivery Options</pre>
         <select class="form-control" (change)="onDeliveryOptionChange($event)">
           <option value="0">Select delivery option</option>
           <option value="5">Regular +5.0 &dollar; [7-10 Days]</option>
           <option value="15">Standard +15.0 &dollar; [3-5 Days]</option>
           <option value="25">Fast +25.0 &dollar; [in 24 Hours]</option>
         </select>
-        <p>Discount Code</p>
-        <input id="code" class="form-control" placeholder="Enter your code" />
+        <pre> Discount Code</pre>
+        <div class="input-group">
+          <input #discountCodeInput id="code" class="form-control" placeholder="Enter your code" />
+          <i class="bi bi-check-circle fs-4 my-2 mx-2 text-success center vertical-align"
+            (click)="applyDiscountCode(discountCodeInput.value)"></i>
+        </div>
+
       </form>
       <div class="row" style="border-top: 1px solid rgba(0, 0, 0, 0.1); padding: 2vh 0;">
-        <div class="col">Total Price</div>
-        <div class="col text-right">&dollar; {{ totalPrice + deliveryCost | number:'1.2-2'}}</div>
+        <div class="col text-center">
+          <div class="row">
+            <div class="col">Discount</div>
+            <div class="col text-right">&dollar; {{ discountMoney | number:'1.2-2' }}</div>
+          </div>
+        </div>
       </div>
-      <button class="btn btn-primary checkout-btn" (click)="checkout()">Check Out</button>
+
+      <div class="row text-center">
+        <div class="col">
+          <div class="row">
+            <div class="col">Total Price</div>
+            <div class="col text-right">&dollar; {{ (totalPrice + deliveryCost - discountMoney) | number:'1.2-2' }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary checkout-btn" (click)="checkout(discountCodeInput.value)">Check Out</button>
     </div>
   </div>
 </div>

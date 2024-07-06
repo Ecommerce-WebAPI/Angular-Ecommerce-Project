@@ -1,0 +1,15 @@
+openSnackBar(message: string, panelClass: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass: [panelClass] 
+    });
+}
+
+
+if (loginSuccessful) {
+    this.openSnackBar('Login successful', 'login-success-snackbar');
+} else {
+    this.openSnackBar('Login failed', 'login-failed-snackbar');
+}

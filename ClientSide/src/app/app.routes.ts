@@ -29,7 +29,7 @@ export const routes: Routes = [
   { path: 'admincategory/:id/edit', component: CategoryFormComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'forgetpass', component: ForgetPasswordComponent },
+  { path: 'forget-password', component: ForgetPasswordComponent },
   { path: 'resetpass', component: ResetPasswordComponent },
   { path: 'login', component: LoginComponent },
   //{ path: 'profile/:id', component: ProfileComponent },

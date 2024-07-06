@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { ICartItem } from '../../interfaces/i-cart-item';
 import { CartService } from '../../services/cart.service';
-import Swal from 'sweetalert2';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-cart',
@@ -17,9 +17,10 @@ export class CartComponent implements OnInit {
   totalPrice: number = 0;
   totalItems: number = 0;
   deliveryCost: number = 0;
+  discountMoney: number = 0;
   cartItems: ICartItem[] = [];
 
-  constructor(private cartService: CartService) { }
+  constructor(private cartService: CartService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.cartService.fetchCart().subscribe(items => {
@@ -65,28 +66,41 @@ export class CartComponent implements OnInit {
     });
   }
 
-  checkout() {
+  private snackBarConfig: MatSnackBarConfig = {
+    duration: 3000,
+    horizontalPosition: 'center',
+    verticalPosition: 'top',
+    panelClass: 'custom-snackbar',
+  };
+
+  applyDiscountCode(discountCode:string){
+      if (discountCode === '22 men3m') {
+      this.discountMoney = this.totalPrice * 0.1;
+      console.log("total price before discount",this.totalPrice);
+      
+    }
+  }
+
+  checkout(discountCode: string) {
+    this.totalPrice = this.totalPrice - this.discountMoney;
+    console.log("total price after discount",this.totalPrice);
+    if(!this.deliveryCost){
+      this.deliveryCost = 5; // standard delivery
+    }
+    this.totalPrice += this.deliveryCost;
+    console.log("total price after discount + delivery",this.totalPrice);
+
     this.cartService.checkout().subscribe(() => {
+      this.snackBar.open('Congratulations 🥳🥳', 'Close', this.snackBarConfig);
       this.cartItems = [];
       this.totalPrice = 0;
       this.totalItems = 0;
       this.deliveryCost = 0;
-      Swal.fire({
-        icon: 'success',
-        title: 'Success!',
-        text: 'Checkout successful',
-        timer: 3000,
-        showConfirmButton: false,
-      });
     }, error => {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops!',
-        text: 'An error occurred during checkout',
-        timer: 3000,
-        showConfirmButton: false,
-      });
+      this.snackBar.open('Checkout failed 😌', 'Close', this.snackBarConfig);
     });
   }
+
+
 
 }

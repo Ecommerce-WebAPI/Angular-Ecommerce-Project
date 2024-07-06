@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-forget-password',
@@ -16,39 +17,28 @@ export class ForgetPasswordComponent {
   email:string="";
   isSubmitted:boolean=false;
   showEmailSent:boolean=false;
-  constructor(public authenticationService:AuthenticationService){}
+  constructor(public authenticationService:AuthenticationService,private snackBar: MatSnackBar){}
+  private snackBarConfig: MatSnackBarConfig = {
+    duration: 3000,
+    horizontalPosition: 'end',
+    verticalPosition: 'bottom',
+    panelClass: 'custom-snackbar',
+  };
   forgetPassword(){
     this.isSubmitted = true;
     this.authenticationService.forgetPassword(this.email).subscribe({
       next:(response)=>{
         if(response.isSuccess){
           this.showEmailSent=true;
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: response.message,
-            timer: 3000,
-            showConfirmButton: false,
-          });
+          //this.snackBar.open(response.message, 'Close', this.snackBarConfig);
+          this.snackBar.open(`${response.message}🥳`, 'Close', this.snackBarConfig,);
         } 
         else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Requesting reset password failed',
-            text: response.message,
-            timer: 3000,
-            showConfirmButton: false,
-          });
+          this.snackBar.open(`Please, make sure you've entered your email correctly 😊`, 'Close', this.snackBarConfig);
         }
       },
       error:(error: HttpErrorResponse)=>{
-        Swal.fire({
-          icon: 'error',
-          title: 'Error Occured While Requesting Reset Password',
-          text: error.message,
-          timer: 3000,
-          showConfirmButton: false,
-        });
+        this.snackBar.open(error.message, 'Close', this.snackBarConfig);
       },
       complete:()=>{
         this.isSubmitted = false;

@@ -4,8 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { tap, switchMap, map, catchError } from 'rxjs/operators';
 import { ICartItem } from './../interfaces/i-cart-item';
-import swal from 'sweetalert';
-import Swal from 'sweetalert2';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +16,7 @@ export class CartService {
   private cartIdSubject = new BehaviorSubject<number | null>(null);
   cartId$ = this.cartIdSubject.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
@@ -92,16 +91,11 @@ export class CartService {
     return this.http.post(url, {}, {
       headers: this.getHeaders()
     }).pipe(
-      tap(() => this.fetchCart().subscribe()),
+      tap(() => {
+        this.fetchCart().subscribe();
+      }),
       catchError(error => {
         console.error('Error during checkout:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops!',
-          text: 'An error occurred during checkout',
-          timer: 3000,
-          showConfirmButton: false,
-        });
         return throwError(error);
       })
     );
