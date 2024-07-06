@@ -1,9 +1,9 @@
 .carousel-item img {
-  height: 480px;
+  height: 420px;
 }
 
 .hero {
-  background: var(--primary);
+  background: #000;
 
   padding: calc(2rem - 30px) 0 0rem 0;
 }
@@ -29,7 +29,7 @@
 .hero h1 {
   font-weight: 700;
   color: #ffffff;
-  margin-bottom: 30px;
+  margin: 40px 0;
 }
 @media (min-width: 1400px) {
   .hero h1 {
@@ -89,6 +89,12 @@
   }
 }
 
+.carousel-control-prev,
+.carousel-control-next {
+  color: transparent;
+}
+
+/* Why choose us */
 .why-choose-section {
   padding: 3rem 0;
 }
@@ -275,7 +281,6 @@
   height: auto;
 } */
 
-
 /* gallery */
 .gallery_item {
   width: 100%;
@@ -354,7 +359,6 @@
 .service_title {
   margin: 1.5rem 0rem;
 }
-
 
 /* Top Rated */
 .section {
@@ -523,4 +527,3 @@
 
 /* =============================== */
 /* =============================== */
-

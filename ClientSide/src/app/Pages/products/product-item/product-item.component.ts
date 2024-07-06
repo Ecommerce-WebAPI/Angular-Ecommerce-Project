@@ -12,7 +12,7 @@ import { CartService } from '../../../services/cart.service';
   styleUrl: './product-item.component.css'
 })
 export class ProductItemComponent {
-  @Input() product: IProduct = {} as IProduct;
+  @Input() product: any = {} as IProduct;
 
   flag: boolean = false;
   constructor(private cartService: CartService) {}

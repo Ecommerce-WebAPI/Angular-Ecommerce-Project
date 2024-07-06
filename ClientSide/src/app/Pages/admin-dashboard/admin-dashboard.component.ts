@@ -7,13 +7,15 @@ import { ICategory } from '../../interfaces/i-category';
 import { CategoryService } from '../../services/category.service';
 import { IUserDetails } from '../../interfaces/i-user-details';
 import { UserService } from '../../services/user.service';
+import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-admin-dashboard',
     standalone: true,
     templateUrl: './admin-dashboard.component.html',
     styleUrl: './admin-dashboard.component.css',
-    imports: [AdminSidebarComponent, ProductsComponent]
+    imports: [AdminSidebarComponent, ProductsComponent, RouterLink,CommonModule]
 })
 export class AdminDashboardComponent {
     products: IProduct[];
@@ -58,11 +60,22 @@ export class AdminDashboardComponent {
                 console.log(error);
             }
         });
+
         this.userService.getAll().subscribe({
             next: (data) => {
                 this.users = data;
                 this.usersLength = data.length;
                 console.log(data.length);
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    }
+    deleteHandler(productId: number): void {
+        this.productService.delete(productId).subscribe({
+            next: () => {
+                this.products = this.products.filter((product) => product.id !== productId);
             },
             error: (error) => {
                 console.log(error);

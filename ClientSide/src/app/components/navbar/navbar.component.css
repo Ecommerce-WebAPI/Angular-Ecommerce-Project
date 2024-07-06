@@ -10,9 +10,7 @@ nav{
   font-size: 30px;
   font-weight: 600;
 }
-.custom-navbar .navbar-brand > span {
-  color: var(--secondry);
-}
+
 .custom-navbar .navbar-toggler {
   border-color: transparent;
 }
@@ -63,6 +61,7 @@ nav{
     -o-transition: 0.15s all ease-out;
     transition: 0.15s all ease-out;
   }
+
 }
 .custom-navbar .custom-navbar-nav li a:hover {
   opacity: 1;
@@ -73,6 +72,7 @@ nav{
 .custom-navbar .custom-navbar-nav li.active a {
   opacity: 1;
 }
+
 .custom-navbar .custom-navbar-nav li.active a:before {
   width: calc(100% - 16px);
 }

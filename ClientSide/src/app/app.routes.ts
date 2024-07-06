@@ -23,7 +23,7 @@ export const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'adminproducts', component: AdminProductsComponent },
   { path: 'products/:id', component: ProductDetailsComponent },
-  { path: 'product', component: ProductsComponent },
+  { path: 'products', component: ProductsComponent },
   { path: 'adminproducts/:id/edit', component: AdminProductFormComponent },
   { path: 'admincategory', component: AdminCategoryComponent },
   { path: 'admincategory/:id/edit', component: CategoryFormComponent },

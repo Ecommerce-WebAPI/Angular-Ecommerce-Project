@@ -50,6 +50,8 @@ export class AuthenticationService {
     if(isExpired){
       this.logout();
     }
+    // const isAdmin = (decoded['role']=="Admin");
+    console.log(`decoded: ${JSON.stringify(decoded)}`);
     return isExpired;
   }
 
