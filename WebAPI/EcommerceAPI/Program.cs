@@ -81,8 +81,8 @@ builder.Services.AddCors(options => {
 });
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<EcommerceContext>()
-    .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<EcommerceContext>()
+                .AddDefaultTokenProviders();
 
 #region jwt create schema
 //builder.Services.AddAuthentication(options =>
@@ -133,7 +133,7 @@ if (app.Environment.IsDevelopment()) {
     //app.MapSwagger().RequireAuthorization();
 
     app.UseSwaggerUI();
-    app.UseSwaggerUI();
+    //app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

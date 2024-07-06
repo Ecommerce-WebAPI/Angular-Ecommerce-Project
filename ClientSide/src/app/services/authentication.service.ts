@@ -58,11 +58,17 @@ export class AuthenticationService {
     if(!token)return false;
     return !this.isTokenExpired(token);
   }
-  
+
+  getUserDetails():Observable<IUserDetails>{
+    const url = `${this.apiurl}Account/GetUserDetails`;
+    console.log(`url of get user detail: ${url}`);
+     return this.http.get<IUserDetails>(url);
+  }
+
   logout(): void {
     localStorage.removeItem(this.tokenkey);
   }
-  
+
   fetchUserDetails(){
     const token = this.getToken();
     if(!token)return null;
@@ -84,12 +90,6 @@ export class AuthenticationService {
     }
     //console.log("loggedin user details: "+JSON.stringify(userDetails));
     return userDetails;
-  }
-
-  getUserDetails():Observable<IUserDetails>{
-    const url = `${this.apiurl}Account/GetUserDetails`;
-    console.log(`url of get user detail: ${url}`);
-     return this.http.get<IUserDetails>(url);
   }
 
   forgetPassword(email:string): Observable<IAuthResponse>{

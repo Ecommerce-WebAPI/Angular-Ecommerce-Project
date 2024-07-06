@@ -21,16 +21,18 @@ export class ProductItemComponent {
   addToFavorites() {
     this.flag = !this.flag;
   }
+
   private snackBarConfig: MatSnackBarConfig = {
     duration: 3000,
     horizontalPosition: 'center',
     verticalPosition: 'top',
     panelClass: 'custom-snackbar',
   };
+
   addToCart() {
     console.log("add to cart btn is clicked!");
     console.log(`product + ${JSON.stringify(this.product)}`);
-    
+
     this.cartService.addToCart(this.product.id).subscribe({
       next: () => {
         this.snackBar.open(`${this.product.name} added to the cart 🥳`, 'Close', this.snackBarConfig);
